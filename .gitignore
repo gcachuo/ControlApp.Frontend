@@ -1,2 +1,4 @@
 /cache/
-/vendor/
+/vendor/*
+!/vendor/.empty
+/composer.phar
