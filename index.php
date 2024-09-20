@@ -11,8 +11,8 @@ use Twig\Loader\FilesystemLoader;
 class Program
 {
     private string $title = "Control App";
+    private bool $debug = true;
     private int $error_level = E_ALL;
-    private bool $displayErrors = true;
     private Environment $twig;
 
     private function Init(): void
@@ -20,7 +20,7 @@ class Program
         require_once __DIR__ . '/vendor/autoload.php';
 
         error_reporting($this->error_level);
-        ini_set('display_errors', $this->displayErrors);
+        ini_set('display_errors', $this->debug);
 
         $this->loadTwig();
     }
@@ -68,9 +68,11 @@ class Program
             return $this->twig->render('index.twig', $context);
         } catch (LoaderError $e) {
             $response_code = 404;
-            http_response_code($response_code);
-            return $this->twig->render('error.twig', ['message' => $e->getMessage(), 'code' => $response_code]);
         }
+
+        $response_code = $response_code ?? 500;
+        http_response_code($response_code);
+        return $this->twig->render("errors/$response_code.twig", ['message' => $e->getMessage(), 'code' => $response_code]);
     }
 
     /**
@@ -81,7 +83,7 @@ class Program
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
             'cache' => __DIR__ . '/cache/',
-            'debug' => true
+            'debug' => $this->debug
         ]);
     }
 }
