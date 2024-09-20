@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>{{ title }}</title>
+    <title>
+        {% if view|length > 0 %}
+            {{ view|capitalize }} -
+        {% endif %}
+        {{ title }}
+    </title>
 </head>
 <body>
 <h1>{{ title }}</h1>
+<section>
+    {% if view|length > 0 %}
+        {{ include("#{ view }.php") }}
+    {% endif %}
+</section>
 </body>
 </html>

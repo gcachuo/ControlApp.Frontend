@@ -1,0 +1,5 @@
+# templates/.htaccess
+
+# Denegar acceso directo a esta carpeta
+Order deny,allow
+Deny from all
