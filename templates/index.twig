@@ -12,7 +12,7 @@
 <h1>{{ title }}</h1>
 <section>
     {% if view|length > 0 %}
-        {{ include("#{ view }.php") }}
+        {{ include(view ~ '.php') }}
     {% endif %}
 </section>
 </body>
