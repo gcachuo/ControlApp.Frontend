@@ -45,7 +45,7 @@ class Program
         $request_uri = trim($_SERVER['REQUEST_URI'], '/');
         if (!empty($request_uri)) {
             $view_path = __DIR__ . "/views/$request_uri.php";
-            if (!file_exists($view_path)) {
+            if (!file_exists(filename: $view_path)) {
                 $request_uri .= '/index';
             }
         }
