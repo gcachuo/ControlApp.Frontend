@@ -8,7 +8,7 @@
                     <!-- Campo para el correo-->
                     <div class="mb-6">
                         <label for="Email" class="form-label">Correo electrónico </label>
-                        <input type="text" class="form-control" id="Email" name="Email" placeholder="Introduce tu correo electrónico" required>
+                        <input type="email" class="form-control" id="txtEmail" name="Email" placeholder="Introduce tu correo electrónico" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un correo electrónico válido.
                         </div>
@@ -58,7 +58,7 @@
                     <!-- Campo para la contraseña-->
                     <div class="mb-6">
                         <label for="Password" class="form-label">Contraseña </label>
-                        <input type="text" class="form-control" id="Password" name="Password" placeholder="Introduce la contraseña" required>
+                        <input type="password" class="form-control" id="txtPassword" name="Password" placeholder="Introduce la contraseña" required>
                         <div class="invalid-feedback">
                             Por favor, introduce una contraseña válida.
                         </div>
@@ -68,7 +68,7 @@
                     <!-- Campo para el telefono-->
                     <div class="mb-6">
                         <label for="Phone" class="form-label">Teléfono </label>
-                        <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Introduce un teléfono" required>
+                        <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Introduce un teléfono" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un teléfono válido.
                         </div>
@@ -78,16 +78,12 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="Address" class="form-label">Dirección</label>
-                        <select class="form-control" id="Address" name="Address" required>
-                            <option value="" selected disabled>Selecciona una dirección</option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                        </select>
+                        <input type="text" class="form-control" id="Address" name="Address" placeholder="Ingresa tu dirección" required>
                         <div class="invalid-feedback">
-                            Por favor, selecciona una dirección válida.
+                            Por favor, ingresa una dirección válida.
                         </div>
                     </div>
+
                 
                     <br>
                     <!-- Botones de acción -->
@@ -105,10 +101,8 @@
 <script>
 async function handleSubmit(e, form){
     e.preventDefault();
-    const body = new FormData(form);
-    await fetch('/actions/users/add.php', {
-        method: 'post',
-        body
-    })
+
+    alert('Simulación de envío');
+
 }
 </script>
