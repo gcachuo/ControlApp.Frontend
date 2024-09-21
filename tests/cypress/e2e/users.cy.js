@@ -10,7 +10,7 @@ describe('Users', () => {
         }).as("registerUser");
 
         cy.fixture('user.json').then(user => {
-            cy.get('[name=Email]')
+            cy.get('[name=email]')
                 .should('have.id', 'txtEmail')
                 .should('have.attr', 'type', 'email')
                 .should('have.attr', 'required', 'required')
@@ -56,7 +56,9 @@ describe('Users', () => {
         cy.get('[type=submit]')
             .click();
 
-        cy.get('[name=Email]')
+        cy.wait("@registerUser");
+
+        cy.get('[name=email]')
             .should('have.value', '');
     })
 })
