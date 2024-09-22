@@ -68,7 +68,7 @@
                     <!-- Campo para el telefono-->
                     <div class="mb-6">
                         <label for="txtPhone" class="form-label">Teléfono </label>
-                        <input type="tel" class="form-control" id="txtPhone" name="phone" placeholder="Introduce un teléfono" required>
+                        <input maxlength="10" type="tel" class="form-control" id="txtPhone" name="phone" placeholder="Introduce un teléfono" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un teléfono válido.
                         </div>
@@ -78,7 +78,7 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="txtAddress" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="txtAddress" name="address" placeholder="Ingresa tu dirección" required>
+                        <input  type="text" class="form-control" id="txtAddress" name="address" placeholder="Ingresa tu dirección" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa una dirección válida.
                         </div>
