@@ -40,7 +40,7 @@
                         <!-- Campo para el primer apellido-->
                         <div class="col-md-6">
                             <label for="txtFirstSurname" class="form-label">Primer Apellido </label>
-                            <input type="text" class="form-control" id="txtFirstSurname" name="firstSurname" placeholder="Introduce tu primer apellido">
+                            <input type="text" class="form-control" id="txtFirstSurname" name="firstSurname" placeholder="Introduce tu primer apellido"required>
                             <div class="invalid-feedback">
                                 Por favor, introduce un apellido válido para el usuario.
                             </div>
