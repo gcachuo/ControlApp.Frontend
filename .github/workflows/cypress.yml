@@ -7,10 +7,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: 'Create env file'
+        run: |
+            touch .env
+            echo USE_CACHE=false >> .env
+            cat .env
       - name: Cypress run
         uses: cypress-io/github-action@v6
-        env:
-          USE_CACHE: false
         with:
           working-directory: ./tests
           start: docker compose up -d
