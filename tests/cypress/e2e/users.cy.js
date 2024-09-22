@@ -1,6 +1,6 @@
 describe('Users', () => {
     it('should create a new user successfully', () => {
-        cy.visit('http://localhost/users/add');
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
         cy.intercept({ method: 'POST', url: 'users/register' }, {
             statusCode: 200,
