@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Cypress run
         uses: cypress-io/github-action@v6
+        env:
+          USE_CACHE: false
         with:
           working-directory: ./tests
           start: docker compose up -d

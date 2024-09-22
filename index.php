@@ -23,6 +23,8 @@ class Program
         ini_set('display_errors', $this->debug);
 
         $this->loadTwig();
+
+        $this->loadDotEnv();
     }
 
     /**
@@ -82,9 +84,18 @@ class Program
     {
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
-            'cache' => false, //__DIR__ . '/cache/',
+            'cache' => ($_ENV['USE_CACHE']??true)?__DIR__ . '/cache/':false,
             'debug' => $this->debug
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function loadDotEnv(): void
+    {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->safeLoad();
     }
 }
 
