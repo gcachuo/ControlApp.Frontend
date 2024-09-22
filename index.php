@@ -84,7 +84,7 @@ class Program
     {
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
-            'cache' => ($_ENV['USE_CACHE']??true)?__DIR__ . '/cache/':false,
+            'cache' => (!isset($_ENV['USE_CACHE'])?true:$_ENV['USE_CACHE'])?__DIR__ . '/cache/':false,
             'debug' => $this->debug
         ]);
     }
