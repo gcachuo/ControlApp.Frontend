@@ -23,6 +23,8 @@ class Program
         ini_set('display_errors', $this->debug);
 
         $this->loadTwig();
+
+        $this->loadDotEnv();
     }
 
     /**
@@ -42,10 +44,10 @@ class Program
      */
     public function getView(): string
     {
-        $request_uri = trim($_SERVER['REQUEST_URI'], '/');
+        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'),'?');
         if (!empty($request_uri)) {
             $view_path = __DIR__ . "/views/$request_uri.php";
-            if (!file_exists($view_path)) {
+            if (!file_exists(filename: $view_path)) {
                 $request_uri .= '/index';
             }
         }
@@ -80,11 +82,21 @@ class Program
      */
     public function loadTwig(): void
     {
+        $disableCache = boolval($_GET['disable-twig-cache']??false);
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
-            'cache' => __DIR__ . '/cache/',
+            'cache' => $disableCache ?false:__DIR__ . '/cache/',
             'debug' => $this->debug
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    public function loadDotEnv(): void
+    {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->safeLoad();
     }
 }
 

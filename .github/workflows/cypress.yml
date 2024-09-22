@@ -1,0 +1,27 @@
+name: Cypress tests
+on: push
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    name: Cypress Testing
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: 'Create env file'
+        run: |
+            touch .env
+            echo USE_CACHE=false >> .env
+            cat .env
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: ./tests
+          start: docker compose up -d
+          wait-on: 'http://localhost'
+          wait-on-timeout: 120
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/cypress/screenshots
