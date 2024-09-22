@@ -20,7 +20,7 @@
                         <!-- Campo para el primer nombre-->
                         <div class="col-md-6">
                             <label for="FirstName" class="form-label">Primer Nombre</label>
-                            <input type="text" class="form-control" id="FirstName" name="name" placeholder="Introduce tu primer nombre" required>
+                            <input type="text" class="form-control" id="FirstName" name="firstName" placeholder="Introduce tu primer nombre" required>
                             <div class="invalid-feedback">
                                 Por favor, introduce un nombre válido para el usuario.
                             </div>
@@ -29,7 +29,7 @@
                         <!-- Campo para el segundo nombre-->
                         <div class="col-md-6">
                             <label for="SecondName" class="form-label">Segundo Nombre</label>
-                            <input type="text" class="form-control" id="SecondName" name="name" placeholder="Introduce tu segundo nombre">
+                            <input type="text" class="form-control" id="SecondName" name="secondName" placeholder="Introduce tu segundo nombre">
                             <div class="invalid-feedback">
                                 Por favor, introduce el nombre válido para el usuario.
                             </div>
@@ -58,7 +58,7 @@
                     <!-- Campo para la contraseña-->
                     <div class="mb-6">
                         <label for="Password" class="form-label">Contraseña </label>
-                        <input type="password" class="form-control" id="txtPassword" name="Password" placeholder="Introduce la contraseña" required>
+                        <input type="password" class="form-control" id="txtPassword" name="password" placeholder="Introduce la contraseña" required>
                         <div class="invalid-feedback">
                             Por favor, introduce una contraseña válida.
                         </div>
@@ -68,7 +68,7 @@
                     <!-- Campo para el telefono-->
                     <div class="mb-6">
                         <label for="Phone" class="form-label">Teléfono </label>
-                        <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Introduce un teléfono" required>
+                        <input type="tel" class="form-control" id="txtPhone" name="phone" placeholder="Introduce un teléfono" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un teléfono válido.
                         </div>
@@ -78,7 +78,7 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="Address" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="Address" name="Address" placeholder="Ingresa tu dirección" required>
+                        <input type="text" class="form-control" id="txtaddress" name="address" placeholder="Ingresa tu dirección" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa una dirección válida.
                         </div>
