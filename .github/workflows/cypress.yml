@@ -3,6 +3,7 @@ on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
+    name: Cypress Testing
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -13,3 +14,9 @@ jobs:
           start: docker compose up -d
           wait-on: 'http://localhost'
           wait-on-timeout: 120
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: tests/cypress/screenshots
