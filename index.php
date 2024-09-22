@@ -82,7 +82,7 @@ class Program
     {
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
-            'cache' => __DIR__ . '/cache/',
+            'cache' => false, //__DIR__ . '/cache/',
             'debug' => $this->debug
         ]);
     }
