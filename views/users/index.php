@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h3 class="text-center">Inicio de Sesión</h3>
-            <form id="roleForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
+            <form id="LogInForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
 
                 <div class="container mt-5 mb-5">
 
@@ -36,10 +36,41 @@
     </div>
 </div>
 <script>
-async function handleSubmit(e, form){
-    e.preventDefault();
+document.getElementById("LogInForm")addEventListener("submit", async function(event){
 
-    alert('Simulación de envío');
+    document.getElementById("txt-Username").value;
+    document.getElementById("txt-Password").value;
 
-}
+    try{
+        const response =await fetch('',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Username : txt-Username,
+                Password : txt-Password
+            })
+
+        });
+
+        const data =await response.JSON;
+
+        if(response.ok){
+
+            localStorage.setItem('token', data.token);
+            alert("Inicio de sesión exitoso")
+            
+        }else {
+                alert('Error al iniciar sesión: ' + data.message);
+            }
+    } catch (error) {
+                console.error('Error:', error);
+    
+        }
+
+
+});
+
+
 </script>
