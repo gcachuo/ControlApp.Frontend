@@ -2,11 +2,12 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h3 class="text-center">Crear Rol de Usuario</h3>
-            <form id="roleForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
+            <form id="frmRole" class="needs-validation" onsubmit="handleSubmit(event, this)">
                 <!-- Campo para el nombre del rol -->
                 <div class="mb-3">
-                    <label for="roleName" class="form-label">Nombre del Rol</label>
-                    <input type="text" class="form-control" id="roleName" name="name" placeholder="Introduce el nombre del rol" required>
+                    <label for="txtName" class="form-label">Nombre del Rol</label>
+                    <input type="text" class="form-control" id="txtName" name="name"
+                           placeholder="Introduce el nombre del rol" required>
                     <div class="invalid-feedback">
                         Por favor, introduce un nombre válido para el rol.
                     </div>
@@ -22,12 +23,27 @@
     </div>
 </div>
 <script>
-async function handleSubmit(e, form){
-    e.preventDefault();
-    const body = new FormData(form);
-    await fetch('/actions/roles/add.php', {
-        method: 'post',
-        body
-    })
-}
+    async function handleSubmit(e, form) {
+        e.preventDefault();
+
+        try {
+            await sendRequest('POST', 'roles/create', form);
+
+            location.reload();
+        } catch (e) {
+            alert('Hubo un problema al registrar el rol.');
+            console.error(e);
+        }
+    }
+
+    async function sendRequest(method, uri, form) {
+        let baseUrl = 'http://localhost:5033/';
+
+        let jsonData = {};
+        new FormData(form).forEach((value, key) => jsonData[key] = value);
+
+        let headers = {'Content-Type': 'application/json'};
+        let body = JSON.stringify(jsonData);
+        await fetch(baseUrl + uri, {method, headers, body});
+    }
 </script>
