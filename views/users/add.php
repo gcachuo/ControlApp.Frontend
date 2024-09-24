@@ -98,11 +98,3 @@
         </div>
     </div>
 </div>
-<script>
-async function handleSubmit(e, form){
-    e.preventDefault();
-
-    alert('Simulación de envío');
-
-}
-</script>
