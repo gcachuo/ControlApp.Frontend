@@ -44,7 +44,7 @@ class Program
      */
     public function getView(): string
     {
-        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'),'?');
+        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
         if (!empty($request_uri)) {
             $view_path = __DIR__ . "/views/$request_uri.php";
             if (!file_exists(filename: $view_path)) {
@@ -65,7 +65,9 @@ class Program
         try {
             $context = [
                 'title' => $this->title,
-                'view' => $this->getView()
+                'view' => $this->getView(),
+                'get' => $_GET,
+                'post' => $_POST
             ];
             return $this->twig->render('index.twig', $context);
         } catch (LoaderError $e) {
@@ -82,10 +84,10 @@ class Program
      */
     public function loadTwig(): void
     {
-        $disableCache = boolval($_GET['disable-twig-cache']??false);
+        $disableCache = boolval($_GET['disable-twig-cache'] ?? false);
         $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
         $this->twig = new Environment($loader, [
-            'cache' => $disableCache ?false:__DIR__ . '/cache/',
+            'cache' => $disableCache ? false : __DIR__ . '/cache/',
             'debug' => $this->debug
         ]);
     }
