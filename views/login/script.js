@@ -9,7 +9,7 @@ async function handleSubmit(e, form){
     });
 
     try{
-        const response =await fetch('',{
+        const response =await fetch('/login',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'

@@ -7,8 +7,8 @@
                 <div class="container mt-5 mb-5">
 
                     <div class="mb-3">
-                        <label for="txt-Username">Usuario</label>
-                        <input type="text" class="form-control" id="txt-Username" name="username" placeholder="Introduce tu usuario"required>
+                        <label for="txtUsername">Usuario</label>
+                        <input type="text" class="form-control" id="txtUsername" name="username" placeholder="Introduce tu usuario"required>
                         <div class="invalid-feedback">
                             Por favor, introduce un usuario válido.
                         </div>
@@ -16,8 +16,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="txt-Password">Contraseña</label>
-                        <input type="password" class="form-control" id="txt-Password" name="password" placeholder="Introduce la contraseña"required>
+                        <label for="txtPassword">Contraseña</label>
+                        <input type="password" class="form-control" id="txtPassword" name="password" placeholder="Introduce la contraseña"required>
                         <div class="invalid-feedback">
                             Por favor, introduce una contraseña válida.
                         </div>
