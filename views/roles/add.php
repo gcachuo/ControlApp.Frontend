@@ -27,8 +27,11 @@
         e.preventDefault();
 
         try {
-            await sendRequest('POST', 'roles/create', form);
-
+            var result = await sendRequest('POST', 'roles/create', form);
+            if (!result.ok) {
+                console.error(await result.json())
+                return;
+            }
             location.reload();
         } catch (e) {
             alert('Hubo un problema al registrar el rol.');
@@ -44,6 +47,6 @@
 
         let headers = {'Content-Type': 'application/json'};
         let body = JSON.stringify(jsonData);
-        await fetch(baseUrl + uri, {method, headers, body});
+        return await fetch(baseUrl + uri, {method, headers, body});
     }
 </script>
