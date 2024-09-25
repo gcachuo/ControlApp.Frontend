@@ -24,7 +24,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <input type="button" value="Reestablecer contraseña" id="resetPassword">
+                        <input type="submit" class="btn btn-primary" value="Ingresar" id="logIn">
+                    </div>
+
+                    <br>
+
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-secondary" value="Reestablecer contraseña" id="resetPassword">
                     </div>
             
                 </div>

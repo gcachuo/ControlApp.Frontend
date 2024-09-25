@@ -1,9 +1,16 @@
+{%
+    if get.id
+%}
+<h1>{{get.id}}</h1>
+{%
+    endif
+%}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <h3 class="text-center">Registrar Usuario</h3>
             <form id="userForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
-
+            
                 <div class="container mt-5 mb-5">
                     <!-- Campo para el correo-->
                     <div class="mb-6">
