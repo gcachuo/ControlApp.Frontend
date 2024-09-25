@@ -2,7 +2,7 @@ describe('Login', () => {
     it('should Log in successfully', () => {
         cy.visit('http://localhost/login/index?disable-twig-cache=true');
 
-        cy.intercept({ method: 'POST', url: 'users/idUser' }, {
+        cy.intercept({ method: 'POST', url: 'users/login' }, {
             statusCode: 200,
             body: {
                 message: 'OK',
