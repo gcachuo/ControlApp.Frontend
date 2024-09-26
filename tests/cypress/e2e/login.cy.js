@@ -7,7 +7,7 @@ describe('Login', () => {
             body: {
                 message: 'OK',
             },
-        }).as("EditUser");
+        }).as("Login");
 
         cy.fixture('login.json').then(login => {
         cy.get('[name=username]')
