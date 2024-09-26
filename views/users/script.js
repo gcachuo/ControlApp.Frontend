@@ -31,7 +31,7 @@ async function handleSubmit(e, form){
 
     try {
       
-        const response = await fetch('/register', {
+        const response = await fetch('http://localhost:5033/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
