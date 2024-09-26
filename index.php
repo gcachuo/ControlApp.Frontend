@@ -35,10 +35,30 @@ class Program
     public function Main(): void
     {
         $this->Init();
-
         $this->loadFile();
 
         exit($this->renderView());
+    }
+
+    public function getController()
+    {
+        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
+        $controller_class = strstr($request_uri, '/', true) ?: $request_uri;
+
+        if (!empty($controller_class)) {
+            $controller_path = __DIR__ . "/controllers/$controller_class.php";
+            if (is_file($controller_path)) {
+                include_once $controller_path;
+                $full_class_name = "controllers\\$controller_class";
+                if (class_exists($full_class_name)) {
+                    return new $full_class_name();
+                } else {
+                    throw new Exception("Controller class '$full_class_name' not found.");
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -46,9 +66,9 @@ class Program
      */
     public function getView(): string
     {
-        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
+        $request_uri = trim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
         if (!empty($request_uri)) {
-            $view_path = __DIR__ . "/views/$request_uri.php";
+            $view_path = __DIR__ . "/views/$request_uri.html";
             if (!file_exists(filename: $view_path)) {
                 $request_uri .= '/index';
             }
@@ -68,8 +88,7 @@ class Program
             $context = [
                 'title' => $this->title,
                 'view' => $this->getView(),
-                'get' => $_GET,
-                'post' => $_POST
+                'controller'=>$this->getControllerClass()
             ];
             return $this->twig->render('index.twig', $context);
         } catch (LoaderError $e) {
@@ -115,6 +134,17 @@ class Program
             $mimetype = get_mime_content_type($view_path);
             header("Content-Type: $mimetype");
             exit(file_get_contents($view_path));
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getControllerClass()
+    {
+        $controllerClass = $this->getController();
+        if(!empty($controllerClass)) {
+            return new $controllerClass();
         }
     }
 }
