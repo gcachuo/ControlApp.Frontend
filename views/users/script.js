@@ -1,5 +1,5 @@
 window.addEventListener("load", async (event) => {
-    let id="{{get.id}}";
+    let id=document.getElementById("txtId").value;
     if(id){
         const result = await fetch(`http://localhost:5033/users/${id}`, {
             method: 'GET',

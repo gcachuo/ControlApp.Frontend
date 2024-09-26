@@ -137,8 +137,7 @@ class Program
             include __DIR__ . "/tools/mime_type.php";
             $mimetype = get_mime_content_type($view_path);
             header("Content-Type: $mimetype");
-            $this->loader->addPath(__DIR__ . '/views/'.$request_uri);
-            exit($this->twig->render($file,['get'=>$_GET]));
+            exit(file_get_contents($view_path));
         }
     }
 
