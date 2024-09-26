@@ -1,5 +1,5 @@
 async function handleSubmit(e, form){
-
+e.preventDefault();
     const formData = new FormData(form);
     
     let jsonData = {};
@@ -9,7 +9,7 @@ async function handleSubmit(e, form){
     });
 
     try{
-        const response =await fetch('/login',{
+        const response =await fetch('http://localhost:5308/users/login',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
