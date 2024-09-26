@@ -1,3 +1,23 @@
+window.addEventListener("load", async (event) => {
+    let id="{{get.id}}";
+    if(id){
+        const result = await fetch(`http://localhost:5033/users/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        let response=await result.json();
+        let user=response.user;
+        document.getElementById("txtEmail").value=user.email;
+        document.getElementById("txtFirstName").value=user.firstName;
+        document.getElementById("txtSecondName").value=user.secondName;
+        document.getElementById("txtFirstSurname").value=user.lastname;
+        document.getElementById("txtSecondSurname").value=user.secondLastname;
+        document.getElementById("txtPhone").value=user.phoneNumber;
+        document.getElementById("txtAddress").value=user.address;
+    }
+});
 async function handleSubmit(e, form){
     e.preventDefault();
 

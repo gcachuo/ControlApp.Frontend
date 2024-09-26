@@ -14,6 +14,7 @@ class Program
     private bool $debug = true;
     private int $error_level = E_ALL;
     private Environment $twig;
+    private $loader;
 
     private function Init(): void
     {
@@ -88,7 +89,8 @@ class Program
             $context = [
                 'title' => $this->title,
                 'view' => $this->getView(),
-                'controller'=>$this->getControllerClass()
+                'controller'=>$this->getControllerClass(),
+                'get'=>$_GET,
             ];
             return $this->twig->render('index.twig', $context);
         } catch (LoaderError $e) {
@@ -106,8 +108,8 @@ class Program
     public function loadTwig(): void
     {
         $disableCache = boolval($_GET['disable-twig-cache'] ?? false);
-        $loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
-        $this->twig = new Environment($loader, [
+        $this->loader = new FilesystemLoader([__DIR__ . '/templates/', __DIR__ . '/views/']);
+        $this->twig = new Environment($this->loader, [
             'cache' => $disableCache ? false : __DIR__ . '/cache/',
             'debug' => $this->debug
         ]);
@@ -128,12 +130,15 @@ class Program
     public function loadFile(): void
     {
         $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
-        $view_path = __DIR__ . "/views/$request_uri";
+        $file = basename($request_uri);
+        $request_uri = strstr($request_uri, '/', true) ?: $request_uri;
+        $view_path = __DIR__ . "/views/$request_uri/$file";
         if (is_file($view_path)) {
             include __DIR__ . "/tools/mime_type.php";
             $mimetype = get_mime_content_type($view_path);
             header("Content-Type: $mimetype");
-            exit(file_get_contents($view_path));
+            $this->loader->addPath(__DIR__ . '/views/'.$request_uri);
+            exit($this->twig->render($file,['get'=>$_GET]));
         }
     }
 

@@ -1,10 +1,3 @@
-{%
-    if controller.id
-%}
-<h1>{{controller.id}}</h1>
-{%
-    endif
-%}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -105,3 +98,4 @@
         </div>
     </div>
 </div>
+<script src="script.js?id={{get.id}}"></script>
