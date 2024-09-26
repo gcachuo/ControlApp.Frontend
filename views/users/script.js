@@ -43,6 +43,7 @@ async function handleSubmit(e, form){
 
         if (response.ok) {
             alert('Usuario registrado con éxito');
+            location.reload();
         } else {
             alert('Error: ' + result.message);
         }

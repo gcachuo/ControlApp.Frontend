@@ -7,7 +7,7 @@ describe('Login', () => {
             body: {
                 message: 'OK',
             },
-        }).as("Login");
+        }).as("login");
 
         cy.fixture('login.json').then(login => {
         cy.get('[name=username]')
@@ -26,10 +26,6 @@ describe('Login', () => {
         cy.get('[type=submit]')
             .click();
 
-        //todo: reenable after the endpoint is finished
-        /*cy.wait("@registerUser");
-
-        cy.get('[name=email]')
-            .should('have.value', '');*/
+        cy.wait("@login");
     })
 })
