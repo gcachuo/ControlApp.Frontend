@@ -1,3 +1,44 @@
+<script>
+    async function handleSubmit(e, form){
+
+const formData = new FormData(form);
+
+let jsonData = {};
+
+formData.forEach(function(value, key){
+    jsonData[key] = value;
+});
+
+try{
+    const response =await fetch('/login',{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData)
+
+    });
+
+    const data =await response.json();
+
+    if(response.ok){
+
+        localStorage.setItem('token', data.token);
+        //Rededirigir a pagina de bienvenida
+        
+        
+    }else {
+            alert('Error al iniciar sesión: ' + data.message);
+        }
+} catch (error) {
+            console.error('Error:', error);
+
+    }
+
+
+};
+
+</script>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -30,7 +71,7 @@
                     <br>
 
                     <div class="mb-3">
-                        <input type="submit" class="btn btn-secondary" value="Reestablecer contraseña" id="resetPassword">
+                        <input type="button" class="btn btn-secondary" value="Reestablecer contraseña" id="resetPassword">
                     </div>
             
                 </div>
