@@ -36,6 +36,15 @@ class Program
     {
         $this->Init();
 
+        $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
+        $view_path = __DIR__ . "/views/$request_uri";
+        if(is_file($view_path)) {
+            include __DIR__ . "/tools/mime_type.php";
+            $mimetype=get_mime_content_type($view_path);
+            header("Content-Type: $mimetype");
+            exit(file_get_contents($view_path));
+        }
+
         exit($this->renderView());
     }
 

@@ -41,3 +41,4 @@
         </div>
     </div>
 </div>
+<script src="script.js" defer></script>
