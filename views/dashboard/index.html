@@ -9,28 +9,57 @@
                     <div id="guard" style="display: none;">
 
                         <!-- Boton para Control de visitas -->
-                        {{ include( '/blocks/visitsbutton.html') }}  
+                        {{ include('dashboard/blocks/visitsbutton.html') }} 
+
+                        <!-- Boton para Control de paquetería -->
+                        {{ include('dashboard/blocks/parcelControlbutton.html') }}
 
                     </div>
                     
                     <div id="admin"  style="display: none;">
 
-                        <!-- Boton para Usarios -->
-                        <button type="button" class="btn btn-primary btn-lg me-3" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
+                        <div class="row">
 
-                            <span class="material-symbols-outlined">person</span><br> Usuarios
+                            <div class="col-6 mb-3">
 
-                        </button>
+                                <!-- Botón para Usuarios -->
 
-                        <!-- Boton para Roles y permisos -->
-                        <button type="button" class="btn btn-primary btn-lg me-3" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
+                                <button type="button" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
+                                    
+                                    <span class="material-symbols-outlined">person</span><br> Usuarios
 
-                            <span class="material-symbols-outlined">user_attributes</span><br> Roles y permisos
+                                </button>
 
-                        </button>
+                            </div>
+                            <div class="col-6 mb-3">
 
-                        {{ include('/blocks/visitsbutton.html') }}
+                                <!-- Botón para Roles y permisos -->
 
+                                <button type="button" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
+
+                                    <span class="material-symbols-outlined">user_attributes</span><br> Roles y permisos
+
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-6 mb-3">
+                                
+                                <!-- Botón para Control de visitas -->
+                                {{ include('dashboard/blocks/visitsbutton.html') }}
+
+                            </div>
+                            <div class="col-6 mb-3">
+
+                                <!-- Botón para Control de paquetería -->
+                                {{ include('dashboard/blocks/parcelControlbutton.html') }}
+
+                            </div>
+
+                        </div>
+                        
                     </div>
                    
                 </div>
