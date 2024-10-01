@@ -1,3 +1,4 @@
+
 async function handleSubmit(e, form){
 e.preventDefault();
     const formData = new FormData(form);
@@ -9,7 +10,7 @@ e.preventDefault();
     });
 
     try{
-        const response =await fetch('http://localhost:5308/users/login',{
+        const response =await fetch(this.envVars.API_URL+ '/users/login',{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
