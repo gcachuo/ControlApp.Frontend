@@ -6,6 +6,14 @@
                 
                 <div class="container mt-5 mb-5">
 
+                    <div id="forbidden" style="display: none;"></div>
+
+                        
+                        {{ include('errors/403.twig') }} 
+
+    
+                    </div>
+
                     <div id="guard" style="display: none;">
 
                         <!-- Boton para Control de visitas -->
@@ -88,7 +96,7 @@
 
      });
     function jwtDecode(token){
-        return {role:"admin"};
+        return {role:"user"};
     }
     // Función para mostrar los botones basados en el rol
     function showButtonsByRole(role) {
@@ -98,8 +106,15 @@
         } else if (role === 'guard') {
             // Mostrar solo el botón de guardia
             document.getElementById('guard').style.display = 'block';
+            
+        } else{
+            //Envia a error 403
+            document.getElementById('forbidden').style.display = 'block';
+
         }
     }
+
+
 </script>
 
 </body>
