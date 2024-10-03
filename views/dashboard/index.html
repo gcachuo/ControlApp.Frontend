@@ -6,7 +6,7 @@
                 
                 <div class="container mt-5 mb-5">
 
-                    <div id="forbidden" style="display: none;"></div>
+                    <div id="forbidden" style="display: none;">
 
                         
                         {{ include('errors/403.twig') }} 
@@ -32,7 +32,7 @@
 
                                 <!-- Botón para Usuarios -->
 
-                                <button type="button" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
+                                <button type="button" id="btnUsers" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
                                     
                                     <span class="material-symbols-outlined">person</span><br> Usuarios
 
@@ -43,7 +43,7 @@
 
                                 <!-- Botón para Roles y permisos -->
 
-                                <button type="button" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
+                                <button type="button" id="btnRoles" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
 
                                     <span class="material-symbols-outlined">user_attributes</span><br> Roles y permisos
 
@@ -87,7 +87,7 @@
     const token = localStorage.getItem('access_token');
 
     // Decodificar el token para obtener los datos
-    const decodedToken = jwtDecode(token);
+    const decodedToken =await jwtDecode(token);
 
     // Obtener el rol del usuario
     const role = decodedToken.role;  // Asegúrate de que el token contenga la información de rol
@@ -95,8 +95,17 @@
         showButtonsByRole(role)
 
      });
-    function jwtDecode(token){
-        return {role:"user"};
+    async function jwtDecode(token){
+        const response =await fetch('/actions/jwt-decode.php',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({token})
+        });
+        const jsonResponse =await response.json();
+        console.log(jsonResponse);
+        return jsonResponse;
     }
     // Función para mostrar los botones basados en el rol
     function showButtonsByRole(role) {
