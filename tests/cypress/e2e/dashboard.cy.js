@@ -8,7 +8,14 @@ describe('Role-based button functionality', () => {
             window.localStorage.setItem('access_token', adminToken);
         });
 
-        cy.intercept('POST', '/jwt-decode', { role: 'admin' });
+        cy.intercept({ pathname: '*' }, {
+            statusCode: 200,
+            body: {
+                role :'admin',
+            },
+        }).as("jwtDecode");
+
+        cy.wait("@jwtDecode");
 
         cy.get('#admin').should('be.visible');
         cy.get('#guard').should('not.be.visible');
