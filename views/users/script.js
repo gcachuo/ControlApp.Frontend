@@ -1,38 +1,45 @@
 window.addEventListener("load", async (event) => {
-    let id=document.getElementById("txtId").value;
-    if(id){
+    let id = document.getElementById("txtId").value;
+    if (id) {
         const result = await fetch(`http://localhost:5033/users/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
         });
-        let response=await result.json();
-        let user=response.user;
-        document.getElementById("txtEmail").value=user.email;
-        document.getElementById("txtFirstName").value=user.firstName;
-        document.getElementById("txtSecondName").value=user.secondName;
-        document.getElementById("txtFirstSurname").value=user.lastname;
-        document.getElementById("txtSecondSurname").value=user.secondLastname;
-        document.getElementById("txtPhone").value=user.phoneNumber;
-        document.getElementById("txtAddress").value=user.address;
+        let response = await result.json();
+        let user = response.user;
+        document.getElementById("txtEmail").value = user.email;
+        document.getElementById("txtFirstName").value = user.firstName;
+        document.getElementById("txtSecondName").value = user.secondName || null;
+        document.getElementById("txtFirstSurname").value = user.lastname;
+        document.getElementById("txtSecondSurname").value = user.secondLastname || null;
+        document.getElementById("txtPhone").value = user.phoneNumber;
+        document.getElementById("txtAddress").value = user.address;
     }
 });
-async function handleSubmit(e, form){
+
+
+async function handleSubmit(e, form) {
     e.preventDefault();
 
     const formData = new FormData(form);
 
     let jsonData = {};
 
-    formData.forEach(function(value, key){
+    formData.forEach(function (value, key) {
         jsonData[key] = value;
     });
 
     try {
-      
-        const response = await fetch('http://localhost:5033/users/register', {
-            method: 'POST',
+
+        let id = document.getElementById("txtId").value;
+
+        let url = id ? `http://localhost:5033/users/${id}` : 'http://localhost:5033/users/register';
+        let method = id ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+            method: method,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -42,8 +49,8 @@ async function handleSubmit(e, form){
         const result = await response.json();
 
         if (response.ok) {
-            alert('Usuario registrado con éxito');
-            location.reload();
+            alert(id ? 'Usuario actualizado con éxito' : 'Usuario registrado con éxito');
+            window.location.href = '/users/list';
         } else {
             alert('Error: ' + result.message);
         }
