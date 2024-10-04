@@ -1,131 +1,71 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h3 class="text-center"></h3>
-            <form id="LogInForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
-                
-                <div class="container mt-5 mb-5">
+            <div class="container mt-5 mb-5">
 
-                    <div id="forbidden" style="display: none;">
+                <div id="forbidden" style="display: none;">
 
-                        
-                        {{ include('errors/403.twig') }} 
-
-    
-                    </div>
-
-                    <div id="guard" style="display: none;">
-
-                        <!-- Boton para Control de visitas -->
-                        {{ include('dashboard/blocks/visitsbutton.html') }} 
-
-                        <!-- Boton para Control de paquetería -->
-                        {{ include('dashboard/blocks/parcelControlbutton.html') }}
-
-                    </div>
                     
-                    <div id="admin"  style="display: none;">
+                    {{ include('errors/403.twig') }} 
 
-                        <div class="row">
 
-                            <div class="col-6 mb-3">
+                </div>
 
-                                <!-- Botón para Usuarios -->
+                <div id="guard" style="display: none;">
 
-                                <button type="button" id="btnUsers" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
-                                    
-                                    <span class="material-symbols-outlined">person</span><br> Usuarios
+                    <!-- Boton para Control de visitas -->
+                    {{ include('dashboard/blocks/visitsbutton.html') }} 
 
-                                </button>
+                    <!-- Boton para Control de paquetería -->
+                    {{ include('dashboard/blocks/parcelControlbutton.html') }}
 
-                            </div>
-                            <div class="col-6 mb-3">
-
-                                <!-- Botón para Roles y permisos -->
-
-                                <button type="button" id="btnRoles" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
-
-                                    <span class="material-symbols-outlined">user_attributes</span><br> Roles y permisos
-
-                                </button>
-
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-6 mb-3">
-                                
-                                <!-- Botón para Control de visitas -->
-                                {{ include('dashboard/blocks/visitsbutton.html') }}
-
-                            </div>
-                            <div class="col-6 mb-3">
-
-                                <!-- Botón para Control de paquetería -->
-                                {{ include('dashboard/blocks/parcelControlbutton.html') }}
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                   
                 </div>
                 
-            </form>
+                <div id="admin"  style="display: none;">
+
+                    <div class="row">
+
+                        <div class="col-6 mb-3">
+
+                            <!-- Botón para Usuarios -->
+
+                            <button type="button" id="btnUsers" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/users')">
+                                
+                                <span class="material-symbols-outlined">person</span><br> Usuarios
+
+                            </button>
+
+                        </div>
+                        <div class="col-6 mb-3">
+
+                            <!-- Botón para Roles y permisos -->
+
+                            <button type="button" id="btnRoles" class="btn btn-primary btn-lg" style="width: 150px; height: 150px;" onclick="navigateTo('/roles')">
+
+                                <span class="material-symbols-outlined">user_attributes</span><br> Roles y permisos
+
+                            </button>
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-6 mb-3">
+                            
+                            <!-- Botón para Control de visitas -->
+                            {{ include('dashboard/blocks/visitsbutton.html') }}
+
+                        </div>
+                        <div class="col-6 mb-3">
+
+                            <!-- Botón para Control de paquetería -->
+                            {{ include('dashboard/blocks/parcelControlbutton.html') }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    
-    function navigateTo(page) {
-        window.location.href = page;
-    }
-    window.addEventListener("load", async (event) => {
-    // Obtener el token desde localStorage
-    const token = localStorage.getItem('access_token');
-
-    // Decodificar el token para obtener los datos
-    const decodedToken =await jwtDecode(token);
-
-    // Obtener el rol del usuario
-    const role = decodedToken.role;  // Asegúrate de que el token contenga la información de rol
-
-        showButtonsByRole(role)
-
-     });
-    async function jwtDecode(token){
-        const response =await fetch('/actions/jwt-decode.php',{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({ token }).toString()
-        });
-        const jsonResponse =await response.json();
-        console.log(jsonResponse);
-        return jsonResponse;
-    }
-    // Función para mostrar los botones basados en el rol
-    function showButtonsByRole(role) {
-        if (role === 'admin') {
-            // Mostrar los tres botones si es administrador
-            document.getElementById('admin').style.display = 'block';
-        } else if (role === 'guard') {
-            // Mostrar solo el botón de guardia
-            document.getElementById('guard').style.display = 'block';
-            
-        } else{
-            //Envia a error 403
-            document.getElementById('forbidden').style.display = 'block';
-
-        }
-    }
-
-
-</script>
-
-</body>
-</html>
-
+<script src="script.js"></script>
