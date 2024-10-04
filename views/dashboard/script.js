@@ -23,7 +23,7 @@ async function jwtDecode(token) {
         body: new URLSearchParams({ token }).toString()
     });
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
+
     return jsonResponse;
 };
 // Función para mostrar los botones basados en el rol
