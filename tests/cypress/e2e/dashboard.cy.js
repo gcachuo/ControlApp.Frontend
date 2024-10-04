@@ -8,7 +8,7 @@ describe('Role-based button functionality', () => {
             window.localStorage.setItem('access_token', adminToken);
         });
 
-        cy.intercept({ pathname: '*' }, {
+        cy.intercept({ url: '*' }, {
             statusCode: 200,
             body: {
                 role :'admin',
