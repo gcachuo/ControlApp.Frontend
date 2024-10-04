@@ -1,6 +1,14 @@
 describe('Role-based button functionality', () => {
 
     it('should display and interact with admin buttons', () => {
+
+        cy.intercept({method:'POST', url: '/actions/jwt-decode.php' }, {
+            statusCode: 200,
+            body: {
+                role :'admin',
+            },
+        }).as("jwtDecode");
+
         cy.visit('http://localhost/dashboard?disable-twig-cache=true');
 
         cy.window().then((window) => {
@@ -8,12 +16,6 @@ describe('Role-based button functionality', () => {
             window.localStorage.setItem('access_token', adminToken);
         });
 
-        cy.intercept({ url: '*' }, {
-            statusCode: 200,
-            body: {
-                role :'admin',
-            },
-        }).as("jwtDecode");
 
         cy.wait("@jwtDecode");
 
