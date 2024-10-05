@@ -1,0 +1,11 @@
+{
+    "email": "test@test.com",
+    "firstName": "First Name",
+    "secondName": "Second Name",
+    "firstSurname": "First Surname",
+    "secondSurname": "Second Surname",
+    "password": "Password",
+    "phone": "1234567890",
+    "address": "Address Street 123",
+    "id": 1
+  }

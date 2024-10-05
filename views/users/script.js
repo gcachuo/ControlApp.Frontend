@@ -19,12 +19,73 @@ window.addEventListener("load", async (event) => {
     }
 });
 
+async function editUser(id, userData) {
+    let uri = id;
+    let method = 'PATCH';
+    let jsonData = userData;
+
+    try {
+        let response = await requestUser(uri, method, jsonData); 
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Usuario actualizado correctamente");
+            window.location.href = '/users/list';
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Hubo un problema al modificar el usuario.');
+    }
+}
+
+async function createUser(userData) {
+    let uri = 'register';
+    let method = 'POST';
+    let jsonData = userData;
+
+    try {
+        let response = await requestUser(uri, method, jsonData); 
+        const result = await response.json(); 
+
+        if (response.ok) {
+            alert("El usuario se ha creado con éxito");
+            window.location.href = '/users/list';
+        } else {
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Hubo un problema al crear el usuario.');
+    }
+}
+
+async function requestUser(uri, method, jsonData) { 
+    const baseUrl = 'http://localhost:5033';
+    const usersUrl = 'users';
+   
+    let url = `${baseUrl}/${usersUrl}/${uri}`; 
+   
+    const response = await fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData)
+    });
+
+    if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || 'Error al procesar la solicitud');
+    }
+    return response; 
+}
 
 async function handleSubmit(e, form) {
     e.preventDefault();
 
     const formData = new FormData(form);
-
     let jsonData = {};
 
     formData.forEach(function (value, key) {
@@ -32,27 +93,14 @@ async function handleSubmit(e, form) {
     });
 
     try {
-
         let id = document.getElementById("txtId").value;
 
-        let url = id ? `http://localhost:5033/users/${id}` : 'http://localhost:5033/users/register';
-        let method = id ? 'PUT' : 'POST';
-
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonData)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            alert(id ? 'Usuario actualizado con éxito' : 'Usuario registrado con éxito');
-            window.location.href = '/users/list';
+        if (id) {
+            // SI EXISTE EL ID ENTONCES ES EDICION 
+            await editUser(id, jsonData); // Usar await aquí
         } else {
-            alert('Error: ' + result.message);
+            // SI NO EXISTE EL ID ENTONCES ES CREACION
+            await createUser(jsonData); // Usar await aquí
         }
     } catch (error) {
         console.error('Error:', error);
