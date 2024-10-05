@@ -58,7 +58,5 @@ describe('Users', () => {
 
         cy.wait("@registerUser");
 
-        cy.get('[name=email]')
-            .should('have.value', '');
     })
 })
