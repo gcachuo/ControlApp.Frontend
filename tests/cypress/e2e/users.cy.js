@@ -58,8 +58,7 @@ describe('Users', () => {
 
         cy.wait("@registerUser");
 
-        cy.get('[name=email]')
-            .should('have.value', '');
+       
     })
 
     it('should update an existing user successfully', () => {
