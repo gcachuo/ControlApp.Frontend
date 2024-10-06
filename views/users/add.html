@@ -85,10 +85,12 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="txtAddress" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="txtAddress" name="address"
-                            placeholder="Ingresa tu dirección" required>
+                        <select class="form-control" id="txtAddress" name="address" required>
+                            <option value="">Selecciona una dirección</option>
+
+                        </select>
                         <div class="invalid-feedback">
-                            Por favor, ingresa una dirección válida.
+                            Por favor, selecciona una dirección válida.
                         </div>
                     </div>
 
