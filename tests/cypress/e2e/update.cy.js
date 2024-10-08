@@ -11,7 +11,7 @@ describe('Users Update', () => {
         }).as("updateUser");
 
 
-        cy.visit(`http://localhost/users/add?id=${id}?disable-twig-cache=true`);
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
 
         cy.fixture('update_user.json').then(user => {
