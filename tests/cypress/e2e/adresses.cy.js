@@ -1,6 +1,6 @@
 describe('Addresses Dropdown', () => {
     beforeEach(() => {
-        cy.intercept('GET', 'http://localhost:5033/addresses', {
+        cy.intercept('GET', 'addresses', {
             statusCode: 200,
             body: [
                 { id: 1, street: 'Calle Principal', number: '101' },
