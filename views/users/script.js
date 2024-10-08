@@ -1,6 +1,10 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
     if (id) {
+        const titulo = document.getElementById('titulo');
+        const passwordField = document.getElementById('passwordField');
+        passwordField.style.display = 'none';
+        titulo.textContent = 'Edicion de Usuario'
         const result = await fetch(`http://localhost:5033/users/${id}`, {
             method: 'GET',
             headers: {
@@ -25,7 +29,7 @@ async function editUser(id, userData) {
     let jsonData = userData;
 
     try {
-        let response = await requestUser(uri, method, jsonData); 
+        let response = await requestUser(uri, method, jsonData);
         const result = await response.json();
 
         if (response.ok) {
@@ -46,8 +50,8 @@ async function createUser(userData) {
     let jsonData = userData;
 
     try {
-        let response = await requestUser(uri, method, jsonData); 
-        const result = await response.json(); 
+        let response = await requestUser(uri, method, jsonData);
+        const result = await response.json();
 
         if (response.ok) {
             alert("El usuario se ha creado con éxito");
@@ -61,12 +65,12 @@ async function createUser(userData) {
     }
 }
 
-async function requestUser(uri, method, jsonData) { 
+async function requestUser(uri, method, jsonData) {
     const baseUrl = 'http://localhost:5033';
     const usersUrl = 'users';
-   
-    let url = `${baseUrl}/${usersUrl}/${uri}`; 
-   
+
+    let url = `${baseUrl}/${usersUrl}/${uri}`;
+
     const response = await fetch(url, {
         method: method,
         headers: {
@@ -79,7 +83,7 @@ async function requestUser(uri, method, jsonData) {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message || 'Error al procesar la solicitud');
     }
-    return response; 
+    return response;
 }
 
 async function handleSubmit(e, form) {
