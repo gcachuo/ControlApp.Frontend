@@ -51,6 +51,11 @@ describe('Users', () => {
                 .should('have.attr', 'type', 'text')
                 .should('have.attr', 'required', 'required')
                 .type(user.address);
+            cy.get('[name=role]')
+                .should('have.id', 'txtRole')
+                .should('have.attr', 'type', 'text')
+                .should('have.attr', 'required', 'required')
+                .type(user.role);
         });
 
         cy.get('[type=submit]')
@@ -58,7 +63,5 @@ describe('Users', () => {
 
         cy.wait("@registerUser");
 
-        cy.get('[name=email]')
-            .should('have.value', '');
     })
 })

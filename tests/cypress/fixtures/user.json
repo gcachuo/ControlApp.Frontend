@@ -6,5 +6,6 @@
   "secondSurname": "Second Surname",
   "password": "Password",
   "phone": "1234567890",
-  "address": "Address Street 123"
+  "address": "Address Street 123",
+  "role": "admin"
 }
