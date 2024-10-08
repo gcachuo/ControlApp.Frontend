@@ -1,6 +1,14 @@
 describe('Users', () => {
-    it('should create a new user successfully', () => {
-        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+
+    beforeEach(() => {
+        cy.intercept('GET', 'addresses', {
+            statusCode: 200,
+            body: [
+                { id: 1, street: 'Calle Principal', number: '101' },
+                { id: 2, street: 'Calle Secundaria', number: '202' },
+                { id: 3, street: 'Calle Tercera', number: '303' },
+            ],
+        }).as('getAddresses');
 
         cy.intercept({ method: 'POST', url: 'users/register' }, {
             statusCode: 200,
@@ -8,6 +16,11 @@ describe('Users', () => {
                 message: 'OK',
             },
         }).as("registerUser");
+    });
+
+    it('should create a new user successfully', () => {
+
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
         cy.fixture('user.json').then(user => {
             cy.get('[name=email]')
@@ -46,15 +59,12 @@ describe('Users', () => {
                 .should('have.attr', 'required', 'required')
                 .should('have.attr', 'maxlength', '10')
                 .type(user.phone);
-            cy.get('[name=address]')
-                .should('have.id', 'txtAddress')
-                .should('have.attr', 'type', 'text')
-                .should('have.attr', 'required', 'required')
-                .type(user.address);
-        });
 
-        cy.get('[type=submit]')
-            .click();
+            cy.get('#txtAddress').select('Calle Tercera 303');
+        });
+        
+
+        cy.get('[type=submit]').click();
 
         cy.wait("@registerUser");
 
@@ -101,4 +111,4 @@ describe('Users', () => {
         cy.location('pathname').should('eq', '/users/');
 
     });
-})
+});
