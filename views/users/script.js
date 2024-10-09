@@ -2,10 +2,8 @@ window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
     const titulo = document.getElementById('titulo');
     const passwordField = document.getElementById('passwordField');
-    const passwordInput = document.getElementById('txtPassword');
     if (id) {
-        passwordField.style.display = 'none';
-        passwordInput.removeAttribute('required');
+        passwordField.remove();
         titulo.textContent = 'Edicion de Usuario'
         const result = await fetch(`http://localhost:5033/users/${id}`, {
             method: 'GET',
@@ -36,7 +34,7 @@ async function editUser(id, userData) {
 
         if (response.ok) {
             alert("Usuario actualizado correctamente");
-            window.location.href = '/users/index';
+            window.location.href = '/users/';
         } else {
             alert('Error: ' + result.message);
         }
@@ -57,7 +55,7 @@ async function createUser(userData) {
 
         if (response.ok) {
             alert("El usuario se ha creado con éxito");
-            window.location.href = '/users/index';
+            window.location.href = '/users/';
         } else {
             alert('Error: ' + result.message);
         }

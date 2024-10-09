@@ -2,8 +2,8 @@
   "email": "test@test.com",
   "firstName": "First Name",
   "secondName": "Second Name",
-  "firstSurname": "First Surname",
-  "secondSurname": "Second Surname",
-  "phone": "1234567890",
+  "lastname": "First Surname",
+  "secondLastname": "Second Surname",
+  "phoneNumber": "1234567890",
   "address": "Address Street 123"
 }
