@@ -22,6 +22,8 @@ describe('Users', () => {
 
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
+        cy.wait('@getAddresses');
+
         cy.fixture('user.json').then(user => {
             cy.get('[name=email]')
                 .should('have.id', 'txtEmail')
@@ -62,13 +64,13 @@ describe('Users', () => {
 
             cy.get('#txtAddress').select('Calle Tercera 303');
         });
-        
+
 
         cy.get('[type=submit]').click();
 
         cy.wait("@registerUser");
 
-       
+
     })
 
     it('should update an existing user successfully', () => {
@@ -91,7 +93,9 @@ describe('Users', () => {
 
             cy.visit(`http://localhost/users/add/?id=${id}&disable-twig-cache=true`);
 
+            cy.wait('@getAddresses');
             cy.wait("@getUser");
+
             cy.get('#txtEmail').should('have.value', fakeUser.email);
             cy.get('#txtFirstName').should('have.value', fakeUser.firstName);
             cy.get('#txtSecondName').should('have.value', fakeUser.secondName);

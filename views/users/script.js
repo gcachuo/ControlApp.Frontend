@@ -1,7 +1,6 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
-    const titulo = document.getElementById('lblTitulo');
-    const passwordField = document.getElementById('passwordField');
+
     if (id) {
         await loadUserDatawithId(id);
     }
@@ -9,6 +8,8 @@ window.addEventListener("load", async (event) => {
 });
 
 async function loadUserDatawithId(id) {
+    const titulo = document.getElementById('lblTitulo');
+    const passwordField = document.getElementById('passwordField');
     try {
         passwordField.remove();
         titulo.textContent = 'Edicion de Usuario'
@@ -27,12 +28,14 @@ async function loadUserDatawithId(id) {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
+        console.log(user.address);
     } catch (error) {
         console.error('Error al cargar datos del usuario:', error);
     }
 }
 
 async function loadAddresses() {
+
     try {
         const response = await fetch(`http://localhost:5033/addresses`, {
             method: 'GET',
@@ -56,7 +59,7 @@ function createAddressOption(addresses) {
     const addressSelect = document.getElementById("txtAddress");
     addresses.forEach(address => {
         const option = document.createElement("option");
-        option.value = address.id;
+        option.value = `${address.street} ${address.number}`;
         option.textContent = `${address.street} ${address.number}`;
         addressSelect.appendChild(option);
     });
