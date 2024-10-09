@@ -1,6 +1,6 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
-    const titulo = document.getElementById('titulo');
+    const titulo = document.getElementById('lblTitulo');
     const passwordField = document.getElementById('passwordField');
     if (id) {
         passwordField.remove();
