@@ -1,8 +1,16 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
+
+    await loadAddresses();
+    if (id) {
+        await loadUserDataWithId(id);
+    }
+});
+
+async function loadUserDataWithId(id) {
     const titulo = document.getElementById('lblTitulo');
     const passwordField = document.getElementById('passwordField');
-    if (id) {
+    try {
         passwordField.remove();
         titulo.textContent = 'Edicion de Usuario'
         const result = await fetch(`http://localhost:5033/users/${id}`, {
@@ -20,8 +28,41 @@ window.addEventListener("load", async (event) => {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
+    } catch (error) {
+        console.error('Error al cargar datos del usuario:', error);
     }
-});
+}
+
+async function loadAddresses() {
+
+    try {
+        const response = await fetch(`http://localhost:5033/addresses`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.ok) {
+            const addresses = await response.json();
+            createAddressOption(addresses);
+        } else {
+            console.error('Error al obtener direcciones');
+        }
+    } catch (error) {
+        console.error('Error al realizar la solicitud:', error);
+    }
+}
+
+function createAddressOption(addresses) {
+    const addressSelect = document.getElementById("txtAddress");
+    addresses.forEach(address => {
+        const option = document.createElement("option");
+        option.value = `${address.street} ${address.number}`;
+        option.textContent = `${address.street} ${address.number}`;
+        addressSelect.appendChild(option);
+    });
+}
 
 async function editUser(id, userData) {
     let uri = id;
