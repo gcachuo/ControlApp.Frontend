@@ -1,13 +1,13 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
 
-    if (id) {
-        await loadUserDatawithId(id);
-    }
     await loadAddresses();
+    if (id) {
+        await loadUserDataWithId(id);
+    }
 });
 
-async function loadUserDatawithId(id) {
+async function loadUserDataWithId(id) {
     const titulo = document.getElementById('lblTitulo');
     const passwordField = document.getElementById('passwordField');
     try {
