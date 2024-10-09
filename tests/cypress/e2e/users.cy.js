@@ -133,7 +133,7 @@ describe('Users', () => {
 
     it('should have the correct values in the dropdown', () => {
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
-        
+
         cy.wait('@getAddresses');
 
         cy.get('#txtAddress')

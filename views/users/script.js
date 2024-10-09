@@ -28,7 +28,6 @@ async function loadUserDataWithId(id) {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
-        console.log(user.address);
     } catch (error) {
         console.error('Error al cargar datos del usuario:', error);
     }
