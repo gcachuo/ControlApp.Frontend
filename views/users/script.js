@@ -48,6 +48,7 @@ async function createUser(userData) {
     let uri = 'register';
     let method = 'POST';
     let jsonData = userData;
+    const form = document.getElementById('userForm');
 
     try {
         let response = await requestUser(uri, method, jsonData);
@@ -55,7 +56,7 @@ async function createUser(userData) {
 
         if (response.ok) {
             alert("El usuario se ha creado con éxito");
-            window.location.href = '/users/';
+            form.reset();
         } else {
             alert('Error: ' + result.message);
         }
