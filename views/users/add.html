@@ -86,8 +86,7 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="txtAddress" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="txtAddress" name="address"
-                            placeholder="Ingresa tu dirección" required>
+                        <input type="text" class="form-control" id="txtAddress" name="address" placeholder="Ingresa tu dirección" required>
                         <div class="invalid-feedback">
                             Por favor, ingresa una dirección válida.
                         </div>
@@ -97,11 +96,14 @@
                     <!-- Campo para el Rol-->
                     <div class="mb-6">
                         <label for="txtRole" class="form-label">Rol</label>
-                        <input  type="text" class="form-control" id="txtRole" name="role" placeholder="Ingresa el rol del usuario" required>
+                        <select class="form-control" id="txtRole" name="role" required>
+                            <option value="" disabled selected>Selecciona un rol</option>
+                        </select>
                         <div class="invalid-feedback">
                             Por favor, ingresa un rol válido.
                         </div>
                     </div>
+
 
                 
                     <br>

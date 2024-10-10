@@ -1,4 +1,15 @@
 describe('Users', () => {
+
+    beforeEach(() => {
+
+        cy.fixture('roles.json').then(rolesData => {
+            cy.intercept({ method: 'GET', url: '/roles/' }, {
+                statusCode: 200,
+                body: rolesData,
+            }).as("loadRole");
+        });
+    });
+
     it('should create a new user successfully', () => {
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
@@ -51,19 +62,27 @@ describe('Users', () => {
                 .should('have.attr', 'type', 'text')
                 .should('have.attr', 'required', 'required')
                 .type(user.address);
-            cy.get('[name=role]')
-                .should('have.id', 'txtRole')
-                .should('have.attr', 'type', 'text')
-                .should('have.attr', 'required', 'required')
-                .type(user.role);
+
+            cy.wait("@loadRole").then((interception) => {
+                const roles = interception.response.body.roles;
+                cy.get('[name=role]').then($select => {
+                    roles.forEach(role => {
+                        const option = new Option(role, role);
+                        $select[0].appendChild(option);
+                    });
+                });
+
+                cy.get('[name=role]')
+                    .select("admin")
+                    .should('have.value', 'admin');
+            });
+
+            cy.get('[type=submit]')
+                .click();
+
+            cy.wait("@registerUser");
         });
-
-        cy.get('[type=submit]')
-            .click();
-
-        cy.wait("@registerUser");
-
-    })
+    });
 
     it('should update an existing user successfully', () => {
         const id = 1;
@@ -71,10 +90,10 @@ describe('Users', () => {
             cy.intercept({ method: 'GET', url: `users/${id}` }, {
                 statusCode: 200,
                 body: {
-                    message: 'OK', user: fakeUser
+                    message: 'OK',
+                    user: fakeUser
                 },
             }).as("getUser");
-
 
             cy.intercept({ method: 'PATCH', url: `users/${id}` }, {
                 statusCode: 200,
@@ -93,9 +112,25 @@ describe('Users', () => {
             cy.get('#txtSecondSurname').should('have.value', fakeUser.secondLastname);
             cy.get('#txtPhone').should('have.value', fakeUser.phoneNumber);
             cy.get('#txtAddress').should('have.value', fakeUser.address);
+
             cy.get('#txtEmail').clear().type('ivan@example.com').should('have.value', 'ivan@example.com');
             cy.get('#txtFirstName').clear().type('John Doe').should('have.value', 'John Doe');
+
             cy.get('#txtPassword').should('not.exist');
+
+            cy.wait("@loadRole").then((interception) => {
+                const roles = interception.response.body.roles;
+                cy.get('[name=role]').then($select => {
+                    roles.forEach(role => {
+                        const option = new Option(role, role);
+                        $select[0].appendChild(option);
+                    });
+                });
+
+                cy.get('[name=role]')
+                    .select("admin")
+                    .should('have.value', 'admin');
+            });
         });
 
         cy.get('[type=submit]').click();
@@ -103,6 +138,5 @@ describe('Users', () => {
         cy.wait("@updateUser");
 
         cy.location('pathname').should('eq', '/users/');
-
     });
-})
+});

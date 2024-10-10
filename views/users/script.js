@@ -2,6 +2,9 @@ window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
     const titulo = document.getElementById('lblTitulo');
     const passwordField = document.getElementById('passwordField');
+
+    await loadRole();
+
     if (id) {
         passwordField.remove();
         titulo.textContent = 'Edicion de Usuario'
@@ -20,8 +23,39 @@ window.addEventListener("load", async (event) => {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
+
     }
 });
+
+async function loadRole() {
+    let method = 'GET';
+    try {
+        const response = await fetch('http://localhost:5033/roles/', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener los roles');
+        }
+
+        const roles = await response.json();
+
+        const roleSelect = document.getElementById("txtRole");
+
+        roles.forEach(role => {
+            const option = document.createElement("option");
+            option.value = role.id;
+            option.textContent = role.name;
+            roleSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al traer los roles:', error);
+    }
+
+}
 
 async function editUser(id, userData) {
     let uri = id;
