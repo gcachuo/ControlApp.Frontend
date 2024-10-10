@@ -1,41 +1,48 @@
 window.addEventListener("load", async (event) => {
-    document.getElementsByName("user_agent")[0].value=navigator.userAgent;
+    getAccessToken();
+    document.getElementsByName("user_agent")[0].value = navigator.userAgent;
 });
-    async function handleSubmit(e, form){
-e.preventDefault();
+
+function getAccessToken() {
+    let accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+        location.href = "/dashboard/";
+    }
+}
+
+async function handleSubmit(e, form) {
+    e.preventDefault();
     const formData = new FormData(form);
-    
+
     let jsonData = {};
 
-    formData.forEach(function(value, key){
+    formData.forEach(function (value, key) {
         jsonData[key] = value;
     });
 
-    try{
-        const response =await fetch(this.envVars.API_URL+ '/users/login',{
+    try {
+        const response = await fetch(this.envVars.API_URL + '/users/login', {
             method: 'POST',
-            headers:{
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(jsonData)
 
         });
 
-        const data =await response.json();
+        const data = await response.json();
 
-        if(response.ok){
+        if (response.ok) {
+            localStorage.setItem('accessToken', data.accessToken);
 
-            localStorage.setItem('token', data.token);
-            //Rededirigir a pagina de bienvenida
-            
-            
-        }else {
-                alert('Error al iniciar sesión: ' + data.message);
-            }
-    } catch (error) {
-                console.error('Error:', error);
-    
+            location.href = "/dashboard/";
+        } else {
+            alert('Error al iniciar sesión: ' + data.message);
         }
+    } catch (error) {
+        console.error('Error:', error);
+
+    }
 
 
 };
