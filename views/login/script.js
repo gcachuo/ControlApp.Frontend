@@ -1,5 +1,7 @@
-
-async function handleSubmit(e, form){
+window.addEventListener("load", async (event) => {
+    document.getElementsByName("user_agent")[0].value=navigator.userAgent;
+});
+    async function handleSubmit(e, form){
 e.preventDefault();
     const formData = new FormData(form);
     
