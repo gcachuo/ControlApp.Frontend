@@ -8,10 +8,15 @@ describe('Users', () => {
                 body: rolesData,
             }).as("loadRole");
         });
-    });
 
-    it('should create a new user successfully', () => {
-        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+        cy.intercept('GET', 'addresses', {
+            statusCode: 200,
+            body: [
+                { id: 1, street: 'Calle Principal', number: '101' },
+                { id: 2, street: 'Calle Secundaria', number: '202' },
+                { id: 3, street: 'Calle Tercera', number: '303' },
+            ],
+        }).as('getAddresses');
 
         cy.intercept({ method: 'POST', url: 'users/register' }, {
             statusCode: 200,
@@ -19,6 +24,13 @@ describe('Users', () => {
                 message: 'OK',
             },
         }).as("registerUser");
+    });
+
+    it('should create a new user successfully', () => {
+
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+
+        cy.wait('@getAddresses');
 
         cy.fixture('user.json').then(user => {
             cy.get('[name=email]')
@@ -57,11 +69,7 @@ describe('Users', () => {
                 .should('have.attr', 'required', 'required')
                 .should('have.attr', 'maxlength', '10')
                 .type(user.phone);
-            cy.get('[name=address]')
-                .should('have.id', 'txtAddress')
-                .should('have.attr', 'type', 'text')
-                .should('have.attr', 'required', 'required')
-                .type(user.address);
+            cy.get('#txtAddress').select('Calle Tercera 303');
 
             cy.wait("@loadRole").then((interception) => {
                 const roles = interception.response.body.roles;
@@ -104,7 +112,9 @@ describe('Users', () => {
 
             cy.visit(`http://localhost/users/add/?id=${id}&disable-twig-cache=true`);
 
+            cy.wait('@getAddresses');
             cy.wait("@getUser");
+
             cy.get('#txtEmail').should('have.value', fakeUser.email);
             cy.get('#txtFirstName').should('have.value', fakeUser.firstName);
             cy.get('#txtSecondName').should('have.value', fakeUser.secondName);
@@ -138,5 +148,36 @@ describe('Users', () => {
         cy.wait("@updateUser");
 
         cy.location('pathname').should('eq', '/users/');
+    });
+
+    it('should load the addresses into the dropdown', () => {
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+
+        cy.wait('@getAddresses');
+
+        cy.get('#txtAddress')
+            .find('option')
+            .should('have.length', 4)
+            .then(options => {
+                expect(options[0].textContent).to.eq('Selecciona una dirección');
+                expect(options[1].textContent).to.eq('Calle Principal 101');
+                expect(options[2].textContent).to.eq('Calle Secundaria 202');
+                expect(options[3].textContent).to.eq('Calle Tercera 303');
+            });
+    });
+
+    it('should have the correct values in the dropdown', () => {
+        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+
+        cy.wait('@getAddresses');
+
+        cy.get('#txtAddress')
+            .find('option')
+            .then(options => {
+                expect(options).to.have.length(4);
+                expect(options[1].value).to.eq('Calle Principal 101');
+                expect(options[2].value).to.eq('Calle Secundaria 202');
+                expect(options[3].value).to.eq('Calle Tercera 303');
+            });
     });
 });
