@@ -1,6 +1,14 @@
 describe('Users', () => {
 
     beforeEach(() => {
+        cy.intercept({ method: 'GET', url: '/roles/' }, {
+            statusCode: 200,
+            body: [
+                { id: 1, name: 'Administrador' },
+                { id: 2, name: 'Usuario' }
+            ]
+        }).as("getRoles");
+
         cy.intercept('GET', 'addresses', {
             statusCode: 200,
             body: [
@@ -19,7 +27,6 @@ describe('Users', () => {
     });
 
     it('should create a new user successfully', () => {
-
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
         cy.wait('@getAddresses');
@@ -55,23 +62,32 @@ describe('Users', () => {
                 .should('have.attr', 'type', 'password')
                 .should('have.attr', 'required', 'required')
                 .type(user.password);
+
             cy.get('[name=phone]')
                 .should('have.id', 'txtPhone')
                 .should('have.attr', 'type', 'tel')
                 .should('have.attr', 'required', 'required')
                 .should('have.attr', 'maxlength', '10')
                 .type(user.phone);
-
             cy.get('#txtAddress').select('Calle Tercera 303');
+
+            cy.wait('@getRoles');
+
+            cy.get('#txtRole')
+                .find('option')
+                .should('have.length', 3)
+                .then((options) => {
+                    expect(options[1].text).to.equal('Administrador');
+                    expect(options[2].text).to.equal('Usuario');
+                });
+
+            cy.get('#txtRole').select('Administrador');
+
+            cy.get('[type=submit]').click();
+
+            cy.wait("@registerUser");
         });
-
-
-        cy.get('[type=submit]').click();
-
-        cy.wait("@registerUser");
-
-
-    })
+    });
 
     it('should update an existing user successfully', () => {
         const id = 1;
@@ -79,10 +95,10 @@ describe('Users', () => {
             cy.intercept({ method: 'GET', url: `users/${id}` }, {
                 statusCode: 200,
                 body: {
-                    message: 'OK', user: fakeUser
+                    message: 'OK',
+                    user: fakeUser
                 },
             }).as("getUser");
-
 
             cy.intercept({ method: 'PATCH', url: `users/${id}` }, {
                 statusCode: 200,
@@ -103,18 +119,32 @@ describe('Users', () => {
             cy.get('#txtSecondSurname').should('have.value', fakeUser.secondLastname);
             cy.get('#txtPhone').should('have.value', fakeUser.phoneNumber);
             cy.get('#txtAddress').should('have.value', fakeUser.address);
+
             cy.get('#txtEmail').clear().type('ivan@example.com').should('have.value', 'ivan@example.com');
             cy.get('#txtFirstName').clear().type('John Doe').should('have.value', 'John Doe');
+
             cy.get('#txtPassword').should('not.exist');
+
+            cy.wait('@getRoles');
+
+            cy.get('#txtRole')
+                .find('option')
+                .should('have.length', 3)
+                .then((options) => {
+                    expect(options[1].text).to.equal('Administrador');
+                    expect(options[2].text).to.equal('Usuario');
+                });
+
+            cy.get('#txtRole').select('Administrador');
+
+            cy.get('[type=submit]').click();
+
+            cy.wait("@updateUser");
+
+            cy.location('pathname').should('eq', '/users/');
         });
-
-        cy.get('[type=submit]').click();
-
-        cy.wait("@updateUser");
-
-        cy.location('pathname').should('eq', '/users/');
-
     });
+
     it('should load the addresses into the dropdown', () => {
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
 

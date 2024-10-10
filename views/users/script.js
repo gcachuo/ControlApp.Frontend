@@ -1,6 +1,6 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
-
+    await loadRole();
     await loadAddresses();
     if (id) {
         await loadUserDataWithId(id);
@@ -62,6 +62,36 @@ function createAddressOption(addresses) {
         option.textContent = `${address.street} ${address.number}`;
         addressSelect.appendChild(option);
     });
+}
+
+async function loadRole() {
+    let method = 'GET';
+    try {
+        const response = await fetch('http://localhost:5033/roles/', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener los roles');
+        }
+
+        const roles = await response.json();
+
+        const roleSelect = document.getElementById("txtRole");
+
+        roles.forEach(role => {
+            const option = document.createElement("option");
+            option.value = role.id;
+            option.textContent = role.name;
+            roleSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al traer los roles:', error);
+    }
+
 }
 
 async function editUser(id, userData) {
