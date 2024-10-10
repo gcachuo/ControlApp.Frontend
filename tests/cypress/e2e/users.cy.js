@@ -1,13 +1,13 @@
 describe('Users', () => {
 
     beforeEach(() => {
-
-        cy.fixture('roles.json').then(rolesData => {
-            cy.intercept({ method: 'GET', url: '/roles/' }, {
-                statusCode: 200,
-                body: rolesData,
-            }).as("loadRole");
-        });
+        cy.intercept({ method: 'GET', url: '/roles/' }, {
+            statusCode: 200,
+            body: [
+                { id: 1, name: 'Administrador' },
+                { id: 2, name: 'Usuario' }
+            ]
+        }).as("getRoles");
 
         cy.intercept('GET', 'addresses', {
             statusCode: 200,
@@ -27,7 +27,6 @@ describe('Users', () => {
     });
 
     it('should create a new user successfully', () => {
-
         cy.visit('http://localhost/users/add?disable-twig-cache=true');
 
         cy.wait('@getAddresses');
@@ -63,6 +62,7 @@ describe('Users', () => {
                 .should('have.attr', 'type', 'password')
                 .should('have.attr', 'required', 'required')
                 .type(user.password);
+
             cy.get('[name=phone]')
                 .should('have.id', 'txtPhone')
                 .should('have.attr', 'type', 'tel')
@@ -71,22 +71,19 @@ describe('Users', () => {
                 .type(user.phone);
             cy.get('#txtAddress').select('Calle Tercera 303');
 
-            cy.wait("@loadRole").then((interception) => {
-                const roles = interception.response.body.roles;
-                cy.get('[name=role]').then($select => {
-                    roles.forEach(role => {
-                        const option = new Option(role, role);
-                        $select[0].appendChild(option);
-                    });
+            cy.wait('@getRoles');
+
+            cy.get('#txtRole')
+                .find('option')
+                .should('have.length', 3)
+                .then((options) => {
+                    expect(options[1].text).to.equal('Administrador');
+                    expect(options[2].text).to.equal('Usuario');
                 });
 
-                cy.get('[name=role]')
-                    .select("admin")
-                    .should('have.value', 'admin');
-            });
+            cy.get('#txtRole').select('Administrador');
 
-            cy.get('[type=submit]')
-                .click();
+            cy.get('[type=submit]').click();
 
             cy.wait("@registerUser");
         });
@@ -128,26 +125,24 @@ describe('Users', () => {
 
             cy.get('#txtPassword').should('not.exist');
 
-            cy.wait("@loadRole").then((interception) => {
-                const roles = interception.response.body.roles;
-                cy.get('[name=role]').then($select => {
-                    roles.forEach(role => {
-                        const option = new Option(role, role);
-                        $select[0].appendChild(option);
-                    });
+            cy.wait('@getRoles');
+
+            cy.get('#txtRole')
+                .find('option')
+                .should('have.length', 3)
+                .then((options) => {
+                    expect(options[1].text).to.equal('Administrador');
+                    expect(options[2].text).to.equal('Usuario');
                 });
 
-                cy.get('[name=role]')
-                    .select("admin")
-                    .should('have.value', 'admin');
-            });
+            cy.get('#txtRole').select('Administrador');
+
+            cy.get('[type=submit]').click();
+
+            cy.wait("@updateUser");
+
+            cy.location('pathname').should('eq', '/users/');
         });
-
-        cy.get('[type=submit]').click();
-
-        cy.wait("@updateUser");
-
-        cy.location('pathname').should('eq', '/users/');
     });
 
     it('should load the addresses into the dropdown', () => {
