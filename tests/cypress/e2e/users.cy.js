@@ -62,3 +62,54 @@ describe('Users', () => {
             .should('have.value', '');
     })
 })
+
+describe('User Table Tests', () => {
+    beforeEach(() => {
+        // Ignorar errores no controlados
+        Cypress.on('uncaught:exception', (err, runnable) => {
+            return false; // Ignorar el error
+        });
+
+        // Interceptar la solicitud para la carga de usuarios
+        cy.intercept('GET', 'http://localhost:5033/users', {
+            statusCode: 200,
+            body: [
+                {
+                    address: 'Calle 1',
+                    firstName: 'Juan',
+                    lastName: 'Pérez',
+                    phoneNumber: '4771234567'
+                },
+                {
+                    address: 'Calle 2',
+                    firstName: 'María',
+                    lastName: 'Fernanda',
+                    phoneNumber: '4771234567'
+                },
+                {
+                    address: 'Calle 3',
+                    firstName: 'Pedro',
+                    lastName: 'Moreno',
+                    phoneNumber: '4771234567'
+                }
+            ]
+        }).as('getUsers');
+
+        cy.visit('http://localhost/users/index?disable-twig-cache=true');
+        cy.wait('@getUsers');
+    });
+
+    it('displays the user table correctly', () => {
+        cy.get('#userTable tr').should('have.length', 3);
+        cy.get('#userTable tr').first().within(() => {
+            cy.get('td').eq(0).should('have.text', 'Calle 1');
+            cy.get('td').eq(1).should('have.text', 'Juan Pérez');
+            cy.get('td').eq(2).should('have.text', '4771234567');
+        });
+    });
+
+    it('redirects to the add user page when edit button is clicked', () => {
+        cy.get('button:contains("Editar")').first().click();
+        cy.url().should('include', '/users/add');
+    });
+});
