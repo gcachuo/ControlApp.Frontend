@@ -28,6 +28,7 @@ async function loadUserDataWithId(id) {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
+        document.getElementById("txtRole").value = user.role;
     } catch (error) {
         console.error('Error al cargar datos del usuario:', error);
     }
@@ -67,22 +68,24 @@ function createAddressOption(addresses) {
 async function loadRole() {
     let method = 'GET';
     try {
-        const response = await fetch('http://localhost:5033/roles/', {
+        const result = await fetch('http://localhost:5033/roles/', {
             method: method,
             headers: {
                 'Content-Type': 'application/json'
             }
         });
 
-        if (!response.ok) {
-            throw new Error('Error al obtener los roles');
+        if (!result.ok) {
+            throw new Error(result.error);
         }
 
-        const roles = await response.json();
+        const response = await result.json();
+
+        console.log(response.role);
 
         const roleSelect = document.getElementById("txtRole");
 
-        roles.forEach(role => {
+        response.role.forEach(role => {
             const option = document.createElement("option");
             option.value = role.id;
             option.textContent = role.name;

@@ -3,10 +3,13 @@ describe('Users', () => {
     beforeEach(() => {
         cy.intercept({ method: 'GET', url: '/roles/' }, {
             statusCode: 200,
-            body: [
-                { id: 1, name: 'Administrador' },
-                { id: 2, name: 'Usuario' }
-            ]
+            body: {
+                message: "OK",
+                role: [
+                    { id: 1, name: 'Administrador' },
+                    { id: 2, name: 'Usuario' }
+                ]
+            }
         }).as("getRoles");
 
         cy.intercept('GET', 'addresses', {
@@ -119,6 +122,7 @@ describe('Users', () => {
             cy.get('#txtSecondSurname').should('have.value', fakeUser.secondLastname);
             cy.get('#txtPhone').should('have.value', fakeUser.phoneNumber);
             cy.get('#txtAddress').should('have.value', fakeUser.address);
+            cy.get('#txtRole').should('have.value', fakeUser.role);
 
             cy.get('#txtEmail').clear().type('ivan@example.com').should('have.value', 'ivan@example.com');
             cy.get('#txtFirstName').clear().type('John Doe').should('have.value', 'John Doe');
@@ -135,7 +139,6 @@ describe('Users', () => {
                     expect(options[2].text).to.equal('Usuario');
                 });
 
-            cy.get('#txtRole').select('Administrador');
 
             cy.get('[type=submit]').click();
 
