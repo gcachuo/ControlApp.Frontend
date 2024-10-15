@@ -184,3 +184,69 @@ async function handleSubmit(e, form) {
         alert('Hubo un problema al registrar el usuario.');
     }
 }
+async function loadUsersTable() {
+    try {
+        const result = await fetch('http://localhost:5033/users', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (result.ok) {
+            const users = await result.json(); 
+
+            const userTable = document.getElementById('userTable');
+            userTable.innerHTML = '';
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+
+                const addressCell = document.createElement('td');
+                addressCell.textContent = user.address;
+                
+                const fullNameCell = document.createElement('td');
+                fullNameCell.textContent = `${user.firstName} ${user.lastName}`;
+                
+                const phoneCell = document.createElement('td');
+                phoneCell.textContent = user.phoneNumber;
+
+                const actionsCell = document.createElement('td');
+                const editButton = document.createElement('button');
+                editButton.className = 'btn btn-info btn-sm me-2';
+                editButton.textContent = 'Editar';
+                editButton.onclick = () => {
+                    window.location.href="/users/add";
+                };
+
+                const deactivateButton = document.createElement('button');
+                deactivateButton.className = 'btn btn-outline-secondary btn-sm';
+                deactivateButton.textContent = 'Desactivar';
+                deactivateButton.onclick = () => {
+                    
+                };
+
+                actionsCell.appendChild(editButton);
+                actionsCell.appendChild(deactivateButton);
+
+                row.appendChild(addressCell);
+                row.appendChild(fullNameCell);
+                row.appendChild(phoneCell);
+                row.appendChild(actionsCell);
+
+                userTable.appendChild(row);
+            });
+        } else {
+            console.error('Error al cargar la lista de usuarios');
+        }
+    } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+    }
+}
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    if (document.getElementById('userTable')) {
+        loadUsersTable();
+    }
+});
+
