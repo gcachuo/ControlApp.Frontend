@@ -213,17 +213,34 @@ async function loadUsersTable() {
 
                 const actionsCell = document.createElement('td');
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-info btn-sm me-2';
-                editButton.textContent = 'Editar';
+                editButton.className = 'btn btn-secondary btn-sm me-2'; 
+                editButton.title = 'Editar'; 
+
+                const editIcon = document.createElement('span');
+                editIcon.className = 'material-symbols-outlined';
+                editIcon.textContent = 'edit';
+
+                editButton.appendChild(editIcon);
+                editButton.appendChild(document.createTextNode(' Editar'));
+
                 editButton.onclick = () => {
-                    window.location.href="/users/add";
+                    window.location.href = "/users/add";
                 };
 
                 const deactivateButton = document.createElement('button');
-                deactivateButton.className = 'btn btn-outline-secondary btn-sm';
-                deactivateButton.textContent = 'Desactivar';
+                deactivateButton.className = 'btn btn-outline-secondary btn-sm'; 
+                deactivateButton.title = 'Desactivar'; 
+
+                const deactivateIcon = document.createElement('span');
+                deactivateIcon.className = 'material-symbols-outlined';
+                deactivateIcon.textContent = 'person_off';
+
+                deactivateButton.appendChild(deactivateIcon);
+                deactivateButton.appendChild(document.createTextNode(' Desactivar'));
+
                 deactivateButton.onclick = () => {
-                    
+
+                    //Codigo para desactivar usuario
                 };
 
                 actionsCell.appendChild(editButton);
