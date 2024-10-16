@@ -1,6 +1,6 @@
 window.addEventListener("load", async (event) => {
     let id = document.getElementById("txtId").value;
-
+    await loadRole();
     await loadAddresses();
     if (id) {
         await loadUserDataWithId(id);
@@ -28,6 +28,7 @@ async function loadUserDataWithId(id) {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
+        document.getElementById("txtRole").value = user.idRole;
     } catch (error) {
         console.error('Error al cargar datos del usuario:', error);
     }
@@ -62,6 +63,36 @@ function createAddressOption(addresses) {
         option.textContent = `${address.street} ${address.number}`;
         addressSelect.appendChild(option);
     });
+}
+
+async function loadRole() {
+    let method = 'GET';
+    try {
+        const result = await fetch('http://localhost:5033/roles/', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!result.ok) {
+            throw new Error(result.error);
+        }
+
+        const response = await result.json();
+
+        const roleSelect = document.getElementById("txtRole");
+
+        response.role.forEach(role => {
+            const option = document.createElement("option");
+            option.value = role.id;
+            option.textContent = role.name;
+            roleSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al traer los roles:', error);
+    }
+
 }
 
 async function editUser(id, userData) {
