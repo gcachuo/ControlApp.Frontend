@@ -213,7 +213,7 @@ async function loadUsersTable() {
 
                 const actionsCell = document.createElement('td');
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-secondary btn-sm me-2'; 
+                editButton.className = 'btn outline-secondary btn-sm me-2'; 
                 editButton.title = 'Editar'; 
 
                 const editIcon = document.createElement('span');
@@ -221,7 +221,6 @@ async function loadUsersTable() {
                 editIcon.textContent = 'edit';
 
                 editButton.appendChild(editIcon);
-                editButton.appendChild(document.createTextNode(' Editar'));
 
                 editButton.onclick = () => {
                     window.location.href = "/users/add";
@@ -236,7 +235,6 @@ async function loadUsersTable() {
                 deactivateIcon.textContent = 'person_off';
 
                 deactivateButton.appendChild(deactivateIcon);
-                deactivateButton.appendChild(document.createTextNode(' Desactivar'));
 
                 deactivateButton.onclick = () => {
 
