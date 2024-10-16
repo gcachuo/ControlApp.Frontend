@@ -28,7 +28,7 @@ async function loadUserDataWithId(id) {
         document.getElementById("txtSecondSurname").value = user.secondLastname || null;
         document.getElementById("txtPhone").value = user.phoneNumber;
         document.getElementById("txtAddress").value = user.address;
-        document.getElementById("txtRole").value = user.role;
+        document.getElementById("txtRole").value = user.idRole;
     } catch (error) {
         console.error('Error al cargar datos del usuario:', error);
     }
@@ -80,8 +80,6 @@ async function loadRole() {
         }
 
         const response = await result.json();
-
-        console.log(response.role);
 
         const roleSelect = document.getElementById("txtRole");
 

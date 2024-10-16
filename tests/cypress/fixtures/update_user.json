@@ -6,5 +6,6 @@
   "secondLastname": "Second Surname",
   "phoneNumber": "1234567890",
   "address": "Calle Principal 101",
+  "idRole": 1,
   "role": "Administrador"
 }

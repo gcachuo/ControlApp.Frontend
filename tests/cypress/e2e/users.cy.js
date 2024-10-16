@@ -112,24 +112,9 @@ describe('Users', () => {
 
             cy.visit(`http://localhost/users/add/?id=${id}&disable-twig-cache=true`);
 
+            cy.wait('@getRoles');
             cy.wait('@getAddresses');
             cy.wait("@getUser");
-
-            cy.get('#txtEmail').should('have.value', fakeUser.email);
-            cy.get('#txtFirstName').should('have.value', fakeUser.firstName);
-            cy.get('#txtSecondName').should('have.value', fakeUser.secondName);
-            cy.get('#txtFirstSurname').should('have.value', fakeUser.lastname);
-            cy.get('#txtSecondSurname').should('have.value', fakeUser.secondLastname);
-            cy.get('#txtPhone').should('have.value', fakeUser.phoneNumber);
-            cy.get('#txtAddress').should('have.value', fakeUser.address);
-            cy.get('#txtRole').should('have.value', fakeUser.role);
-
-            cy.get('#txtEmail').clear().type('ivan@example.com').should('have.value', 'ivan@example.com');
-            cy.get('#txtFirstName').clear().type('John Doe').should('have.value', 'John Doe');
-
-            cy.get('#txtPassword').should('not.exist');
-
-            cy.wait('@getRoles');
 
             cy.get('#txtRole')
                 .find('option')
@@ -138,6 +123,20 @@ describe('Users', () => {
                     expect(options[1].text).to.equal('Administrador');
                     expect(options[2].text).to.equal('Usuario');
                 });
+
+            cy.get('#txtEmail').should('have.value', fakeUser.email);
+            cy.get('#txtFirstName').should('have.value', fakeUser.firstName);
+            cy.get('#txtSecondName').should('have.value', fakeUser.secondName);
+            cy.get('#txtFirstSurname').should('have.value', fakeUser.lastname);
+            cy.get('#txtSecondSurname').should('have.value', fakeUser.secondLastname);
+            cy.get('#txtPhone').should('have.value', fakeUser.phoneNumber);
+            cy.get('#txtAddress').should('have.value', fakeUser.address);
+            cy.get('#txtRole').should('have.value', fakeUser.idRole);
+
+            cy.get('#txtEmail').clear().type('ivan@example.com').should('have.value', 'ivan@example.com');
+            cy.get('#txtFirstName').clear().type('John Doe').should('have.value', 'John Doe');
+
+            cy.get('#txtPassword').should('not.exist');
 
 
             cy.get('[type=submit]').click();
