@@ -83,6 +83,8 @@ async function loadUsersTable() {
                 const editButton = document.createElement('button');
                 editButton.className = 'btn outline-secondary btn-sm me-2'; 
                 editButton.title = 'Editar'; 
+                editButton.setAttribute('data-cy', 'btnEdit'); 
+
 
                 const editIcon = document.createElement('span');
                 editIcon.className = 'material-symbols-outlined';
@@ -96,7 +98,7 @@ async function loadUsersTable() {
 
                 const deactivateButton = document.createElement('button');
                 deactivateButton.className = 'btn btn-outline-secondary btn-sm'; 
-                deactivateButton.title = 'Desactivar'; 
+                deactivateButton.title = 'Desactivar';
 
                 const deactivateIcon = document.createElement('span');
                 deactivateIcon.className = 'material-symbols-outlined';

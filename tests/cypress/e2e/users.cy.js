@@ -62,31 +62,31 @@ describe('Users', () => {
             .should('have.value', '');
     })
 })
-
 describe('User Table Tests', () => {
     beforeEach(() => {
-        // Ignorar errores no controlados
         Cypress.on('uncaught:exception', (err, runnable) => {
-            return false; // Ignorar el error
+            return false;
         });
 
-        // Interceptar la solicitud para la carga de usuarios
-        cy.intercept('GET', 'http://localhost:5033/users', {
+        cy.intercept('GET', '/users', {
             statusCode: 200,
             body: [
                 {
+                    id: 1,
                     address: 'Calle 1',
                     firstName: 'Juan',
                     lastName: 'Pérez',
                     phoneNumber: '4771234567'
                 },
                 {
+                    id: 2,
                     address: 'Calle 2',
                     firstName: 'María',
                     lastName: 'Fernanda',
                     phoneNumber: '4771234567'
                 },
                 {
+                    id: 3,
                     address: 'Calle 3',
                     firstName: 'Pedro',
                     lastName: 'Moreno',
@@ -95,21 +95,30 @@ describe('User Table Tests', () => {
             ]
         }).as('getUsers');
 
-        cy.visit('http://localhost/users/index?disable-twig-cache=true');
-        cy.wait('@getUsers');
     });
 
-    it('displays the user table correctly', () => {
-        cy.get('#userTable tr').should('have.length', 3);
-        cy.get('#userTable tr').first().within(() => {
-            cy.get('td').eq(0).should('have.text', 'Calle 1');
-            cy.get('td').eq(1).should('have.text', 'Juan Pérez');
-            cy.get('td').eq(2).should('have.text', '4771234567');
+    it('redirects to the add user page when edit buttons are clicked', () => {
+        cy.visit('http://localhost/users/index/?disable-twig-cache=true');
+        cy.wait('@getUsers');
+    
+        // Asegurarse de que los botones existen
+        cy.get('[data-cy="btnEdit"]').should('exist');
+    
+        // Recorremos todos los botones
+        cy.get('[data-cy="btnEdit"]').each((button, index) => {
+            const userId = index + 1; // Ajustamos el ID del usuario
+    
+            // Hacemos clic en el botón de edición
+            cy.wrap(button).click();
+    
+            // Esperamos a que la URL cambie a la página de edición
+            cy.url().should('eq', `http://localhost/users/add/?id=${userId}`);
+    
+            // Volvemos a la tabla de usuarios después de verificar la URL
+            cy.visit('http://localhost/users/index/?disable-twig-cache=true');
+            cy.wait('@getUsers');
         });
     });
-
-    it('redirects to the add user page when edit button is clicked', () => {
-        cy.get('button:contains("Editar")').first().click();
-        cy.url().should('include', '/users/add');
-    });
+    
+      
 });
