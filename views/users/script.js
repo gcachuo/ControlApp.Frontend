@@ -223,7 +223,7 @@ async function loadUsersTable() {
                 editButton.appendChild(editIcon);
 
                 editButton.onclick = () => {
-                    window.location.href = "/users/add";
+                    window.location.href = `/users/add/?id=${user.id}`;
                 };
 
                 const deactivateButton = document.createElement('button');
