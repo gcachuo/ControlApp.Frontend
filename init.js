@@ -1,6 +1,51 @@
 window.addEventListener("load", async (event) => {
 await loadEnvFile('/.env');
+validateToken();
 });
+// Función para decodificar un JWT (base64)
+function parseJwt(token) {
+    try {
+        const base64Url = token.split('.')[1]; // Obtener la parte del payload
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        return null;
+    }
+}
+
+// Función para verificar el token
+function validateToken() {
+    const accessToken = localStorage.getItem('accessToken'); // O sessionStorage
+
+    if (!accessToken) {
+        const currentPath = window.location.pathname;
+        if (!currentPath.includes('login')) {
+            // Redirigir al login si no hay token
+            window.location.href = '/login';
+        }
+        return;
+    }
+
+    const decodedToken = parseJwt(accessToken);
+
+    if (decodedToken) {
+        const currentTime = Date.now() / 1000; // Tiempo actual en segundos
+
+        // Si el token ha expirado, redirigir al login
+        if (decodedToken.exp < currentTime) {
+            localStorage.removeItem('accessToken'); // Opcional: limpiar el token
+            window.location.href = '/login';
+        }
+    } else {
+        // Si no se puede decodificar el token, redirigir al login
+        localStorage.removeItem('accessToken'); // Opcional: limpiar el token
+        window.location.href = '/login';
+    }
+}
 
 async function loadEnvFile(filePath) {
     try {
