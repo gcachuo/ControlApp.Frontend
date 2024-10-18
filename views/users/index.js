@@ -1,67 +1,21 @@
-window.addEventListener("load", async (event) => {
-    let id=document.getElementById("txtId").value;
-    if(id){
-        const result = await fetch(`http://localhost:5033/users/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        });
-        let response=await result.json();
-        let user=response.user;
-        document.getElementById("txtEmail").value=user.email;
-        document.getElementById("txtFirstName").value=user.firstName;
-        document.getElementById("txtSecondName").value=user.secondName;
-        document.getElementById("txtFirstSurname").value=user.lastname;
-        document.getElementById("txtSecondSurname").value=user.secondLastname;
-        document.getElementById("txtPhone").value=user.phoneNumber;
-        document.getElementById("txtAddress").value=user.address;
-    }
-});
-async function handleSubmit(e, form){
-    e.preventDefault();
 
-    const formData = new FormData(form);
-
-    let jsonData = {};
-
-    formData.forEach(function(value, key){
-        jsonData[key] = value;
-    });
-
-    try {
-      
-        const response = await fetch('http://localhost:5033/users/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jsonData)
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            alert('Usuario registrado con éxito');
-            location.reload();
-        } else {
-            alert('Error: ' + result.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Hubo un problema al registrar el usuario.');
-    }
-}
 async function loadUsersTable() {
     try {
-        const result = await fetch('http://localhost:5033/users', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
+        let result =  null;
+        try{
+            result = await fetch('http://localhost:5033/users', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+        } catch (error) {
+            console.error('Error al cargar usuarios:', error);
+        }
+        
         if (result.ok) {
+
             const users = await result.json(); 
 
             const userTable = document.getElementById('userTable');
@@ -84,6 +38,7 @@ async function loadUsersTable() {
                 editButton.className = 'btn outline-secondary btn-sm me-2'; 
                 editButton.title = 'Editar'; 
                 editButton.setAttribute('data-cy', 'btnEdit'); 
+                editButton.setAttribute('data-user-id', user.id); 
 
 
                 const editIcon = document.createElement('span');
@@ -99,6 +54,7 @@ async function loadUsersTable() {
                 const deactivateButton = document.createElement('button');
                 deactivateButton.className = 'btn btn-outline-secondary btn-sm'; 
                 deactivateButton.title = 'Desactivar';
+                deactivateButton.disabled = true;
 
                 const deactivateIcon = document.createElement('span');
                 deactivateIcon.className = 'material-symbols-outlined';
@@ -122,16 +78,14 @@ async function loadUsersTable() {
                 userTable.appendChild(row);
             });
         } else {
-            console.error('Error al cargar la lista de usuarios');
+            console.warn('La lista está vacía');
         }
     } catch (error) {
-        console.error('Error al cargar usuarios:', error);
+        console.error('Error: ', error);
     }
 }
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    if (document.getElementById('userTable')) {
-        loadUsersTable();
-    }
+window.addEventListener('load', (event) => {
+    loadUsersTable();
 });
 

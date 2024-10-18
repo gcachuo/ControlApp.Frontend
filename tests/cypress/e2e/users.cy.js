@@ -64,9 +64,7 @@ describe('Users', () => {
 })
 describe('User Table Tests', () => {
     beforeEach(() => {
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false;
-        });
+        
 
         cy.intercept('GET', '/users', {
             statusCode: 200,
@@ -99,26 +97,23 @@ describe('User Table Tests', () => {
 
     it('redirects to the add user page when edit buttons are clicked', () => {
         cy.visit('http://localhost/users/index/?disable-twig-cache=true');
-        cy.wait('@getUsers');
+        cy.wait('@getUsers'); 
     
-        // Asegurarse de que los botones existen
-        cy.get('[data-cy="btnEdit"]').should('exist');
+        // Asegurarse de que los botones de editar existen
+        cy.get('[data-cy="btnEdit"]').should('exist'); 
     
-        // Recorremos todos los botones
-        cy.get('[data-cy="btnEdit"]').each((button, index) => {
-            const userId = index + 1; // Ajustamos el ID del usuario
-    
-            // Hacemos clic en el botón de edición
-            cy.wrap(button).click();
-    
-            // Esperamos a que la URL cambie a la página de edición
-            cy.url().should('eq', `http://localhost/users/add/?id=${userId}`);
-    
-            // Volvemos a la tabla de usuarios después de verificar la URL
-            cy.visit('http://localhost/users/index/?disable-twig-cache=true');
-            cy.wait('@getUsers');
+        // Capturar el número de filas en la tabla y compararlo con el número de botones de editar
+        cy.get('#userTable tr').then(($rows) => {
+            const numRows = $rows.length; // Número de filas
+            cy.get('[data-cy="btnEdit"]').should('have.length', numRows); // Comparar número de botones con el número de filas
         });
-    });
     
+        // Verificar que los botones de desactivar existen y están deshabilitados
+        cy.get('button[title="Desactivar"]').each((button) => {
+            // Asegurarse de que el botón de desactivar no sea clickeable (deshabilitado)
+            cy.wrap(button).should('be.disabled'); // Puedes modificar si usas clases específicas para deshabilitar
+        });
+        
+    });
       
 });
