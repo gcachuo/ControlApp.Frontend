@@ -1,4 +1,3 @@
-
 describe('User Table Tests', () => {
     beforeEach(() => {
         cy.intercept('GET', '/users', {
@@ -35,7 +34,9 @@ describe('User Table Tests', () => {
 
     it('redirects to the add user page when edit buttons are clicked', () => {
         cy.visit('http://localhost/users/index/?disable-twig-cache=true');
+
         cy.wait('@getUsers');
+
 
         cy.get('[data-cy="btnEdit"]').should('exist');
 

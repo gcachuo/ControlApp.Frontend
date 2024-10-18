@@ -1,44 +1,44 @@
 
 async function loadUsersTable() {
     try {
-        let result =  null;
-        try{
+        let result = null;
+        try {
             result = await fetch('http://localhost:5033/users', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-    
+
         } catch (error) {
             console.error('Error al cargar usuarios:', error);
         }
-        
+
         if (result.ok) {
 
-            const users = await result.json(); 
+            const users = await result.json();
 
             const userTable = document.getElementById('userTable');
             userTable.innerHTML = '';
 
-            users.forEach(user => {
+            users.addresses.forEach(user => {
                 const row = document.createElement('tr');
 
                 const addressCell = document.createElement('td');
                 addressCell.textContent = user.address;
-                
+
                 const fullNameCell = document.createElement('td');
                 fullNameCell.textContent = `${user.firstName} ${user.lastName}`;
-                
+
                 const phoneCell = document.createElement('td');
                 phoneCell.textContent = user.phoneNumber;
 
                 const actionsCell = document.createElement('td');
                 const editButton = document.createElement('button');
-                editButton.className = 'btn outline-secondary btn-sm me-2'; 
-                editButton.title = 'Editar'; 
-                editButton.setAttribute('data-cy', 'btnEdit'); 
-                editButton.setAttribute('data-user-id', user.id); 
+                editButton.className = 'btn outline-secondary btn-sm me-2';
+                editButton.title = 'Editar';
+                editButton.setAttribute('data-cy', 'btnEdit');
+                editButton.setAttribute('data-user-id', user.id);
 
 
                 const editIcon = document.createElement('span');
@@ -52,7 +52,7 @@ async function loadUsersTable() {
                 };
 
                 const deactivateButton = document.createElement('button');
-                deactivateButton.className = 'btn btn-outline-secondary btn-sm'; 
+                deactivateButton.className = 'btn btn-outline-secondary btn-sm';
                 deactivateButton.title = 'Desactivar';
                 deactivateButton.disabled = true;
 
