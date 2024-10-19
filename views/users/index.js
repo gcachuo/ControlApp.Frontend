@@ -55,6 +55,7 @@ async function loadUsersTable() {
                 deactivateButton.className = 'btn btn-outline-secondary btn-sm';
                 deactivateButton.title = 'Desactivar';
                 deactivateButton.disabled = true;
+                deactivateButton.setAttribute('data-cy', 'btnDeactivate');
 
                 const deactivateIcon = document.createElement('span');
                 deactivateIcon.className = 'material-symbols-outlined';

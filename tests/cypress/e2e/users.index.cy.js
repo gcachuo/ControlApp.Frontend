@@ -45,7 +45,7 @@ describe('User Table Tests', () => {
             cy.get('[data-cy="btnEdit"]').should('have.length', numRows);
         });
 
-        cy.get('button[title="Desactivar"]').each((button) => {
+        cy.get('button[data-cy="btnDeactivate"]').each((button) => {
             cy.wrap(button).should('be.disabled');
         });
 
