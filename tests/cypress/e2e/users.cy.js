@@ -30,7 +30,7 @@ describe('Users', () => {
     });
 
     it('should create a new user successfully', () => {
-        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+        cy.visitWithToken('/users/add');
 
         cy.wait('@getAddresses');
 
@@ -110,7 +110,7 @@ describe('Users', () => {
                 },
             }).as("updateUser");
 
-            cy.visit(`http://localhost/users/add/?id=${id}&disable-twig-cache=true`);
+            cy.visitWithToken(`/users/add/?id=${id}`);
 
             cy.wait('@getRoles');
             cy.wait('@getAddresses');
@@ -148,7 +148,7 @@ describe('Users', () => {
     });
 
     it('should load the addresses into the dropdown', () => {
-        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+        cy.visitWithToken('/users/add');
 
         cy.wait('@getAddresses');
 
@@ -164,7 +164,7 @@ describe('Users', () => {
     });
 
     it('should have the correct values in the dropdown', () => {
-        cy.visit('http://localhost/users/add?disable-twig-cache=true');
+        cy.visitWithToken('/users/add');
 
         cy.wait('@getAddresses');
 

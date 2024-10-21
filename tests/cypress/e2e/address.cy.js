@@ -2,7 +2,7 @@ describe('Address Creation ', () => {
 
     it('Should create the address successfully', () => {
 
-        cy.visit('http://localhost/address?disable-twig-cache=true'); 
+        cy.visitWithToken('/address');
 
         cy.get('#txtStreet').type('Fake Street');
         cy.get('#txtNumber').type('123');

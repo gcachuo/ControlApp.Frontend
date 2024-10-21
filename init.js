@@ -18,7 +18,7 @@ function parseJwt(token) {
 }
 
 // Función para verificar el token
-function validateToken() {
+window.validateToken=()=> {
     const accessToken = localStorage.getItem('accessToken'); // O sessionStorage
 
     if (!accessToken) {
