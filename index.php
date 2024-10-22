@@ -8,6 +8,9 @@ use Twig\Loader\FilesystemLoader;
 
 (new Program())->Main();
 
+/**
+ * @version 1.0.0
+ */
 class Program
 {
     private string $title = "Control App";
