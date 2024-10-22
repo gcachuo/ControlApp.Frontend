@@ -1,10 +1,9 @@
 async function fetchUsers() {
     try {
-        const response = await fetch('http://localhost:5033/users', {
+        return await fetch('http://localhost:5033/users', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
-        return response;
     } catch (error) {
         console.error('Error al cargar usuarios:', error);
         return null;
@@ -33,49 +32,59 @@ function createCell(textContent) {
     return cell;
 }
 
-function createActions(user) {
+function createActionsCell(user) {
     const actionsCell = document.createElement('td');
 
     // Boton de Editar
+    const editButton = createEditButton(user);
+    actionsCell.appendChild(editButton);
+
+    // Boton de Desactivar
+    const deactivateButton = createDeactivateButton();
+    actionsCell.appendChild(deactivateButton);
+
+    return actionsCell;
+}
+
+function createEditButton(user) {
     const editButton = document.createElement('button');
     editButton.className = 'btn outline-secondary btn-sm me-2';
     editButton.title = 'Editar';
     editButton.setAttribute('data-cy', 'btnEdit');
     editButton.setAttribute('data-user-id', user.id);
-    editButton.onclick = () => {
-        window.location.href = `/users/add/?id=${user.id}`;
-    };
+
     const editIcon = document.createElement('span');
     editIcon.className = 'material-symbols-outlined';
     editIcon.textContent = 'edit';
     editButton.appendChild(editIcon);
 
-    // Boton de Desactivar
+    editButton.onclick = () => {
+        window.location.href = `/users/add/?id=${user.id}`;
+    };
+
+    return editButton;
+}
+
+function createDeactivateButton() {
     const deactivateButton = document.createElement('button');
     deactivateButton.className = 'btn btn-outline-secondary btn-sm';
     deactivateButton.title = 'Desactivar';
     deactivateButton.disabled = true;
     deactivateButton.setAttribute('data-cy', 'btnDeactivate');
+
     const deactivateIcon = document.createElement('span');
     deactivateIcon.className = 'material-symbols-outlined';
     deactivateIcon.textContent = 'person_off';
     deactivateButton.appendChild(deactivateIcon);
 
-    deactivateButton.onclick = () => {
-        // Codigo para desactivar usuario
-    };
-
-    actionsCell.appendChild(editButton);
-    actionsCell.appendChild(deactivateButton);
-
-    return actionsCell;
+    return deactivateButton;
 }
 
 async function loadUsersTable() {
     try {
         const result = await fetchUsers();
 
-        if (result.ok) {
+        if (result && result.ok) {
             const users = await result.json();
             const userTable = document.getElementById('userTable');
             userTable.innerHTML = '';
@@ -92,8 +101,6 @@ async function loadUsersTable() {
     }
 }
 
-
-window.addEventListener('load', (event) => {
+window.addEventListener('load', () => {
     loadUsersTable();
 });
-
