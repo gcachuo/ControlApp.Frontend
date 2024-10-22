@@ -170,11 +170,12 @@ describe('Users', () => {
 
         cy.get('#txtAddress')
             .find('option')
+            .should('have.length', 4)
             .then(options => {
-                expect(options).to.have.length(4);
-                expect(options[1].value).to.eq('Calle Principal 101');
-                expect(options[2].value).to.eq('Calle Secundaria 202');
-                expect(options[3].value).to.eq('Calle Tercera 303');
+                expect(options[0].textContent).to.eq('Selecciona una dirección');
+                expect(options[1].textContent).to.eq('Calle Principal 101');
+                expect(options[2].textContent).to.eq('Calle Secundaria 202');
+                expect(options[3].textContent).to.eq('Calle Tercera 303');
             });
-    });
-});
+    })
+})
