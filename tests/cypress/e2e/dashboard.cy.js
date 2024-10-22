@@ -9,7 +9,7 @@ describe('Role-based button functionality', () => {
             },
         }).as("jwtDecode");
 
-        cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+        cy.visitWithToken('/dashboard');
 
         cy.wait("@jwtDecode");
 
@@ -22,19 +22,19 @@ describe('Role-based button functionality', () => {
 
                 cy.get('#btnUsers').contains('Usuarios').click();
                 cy.url().should('include', '/users');
-                cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+                cy.visitWithToken('/dashboard');
 
                 cy.get('#btnRoles').contains('Roles y permisos').click();
                 cy.url().should('include', '/roles');
-                cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+                cy.visitWithToken('/dashboard');
 
                 cy.get('#btnVisits').contains('Control de visitas').click();
                 cy.url().should('include', '/visits');
-                cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+                cy.visitWithToken('/dashboard');
 
                 cy.get('#btnParcelControl').contains('Control de paquetería').click();
                 cy.url().should('include', '/parcelControl');
-                cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+                cy.visitWithToken('/dashboard');
 
             });
 
@@ -49,7 +49,7 @@ describe('Role-based button functionality', () => {
             },
         }).as("jwtDecode");
 
-        cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+        cy.visitWithToken('/dashboard');
 
         cy.wait("@jwtDecode");
 
@@ -62,7 +62,7 @@ describe('Role-based button functionality', () => {
 
                 cy.get('#btnVisits').contains('Control de visitas').click();
                 cy.url().should('include', '/visits');
-                cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+                cy.visitWithToken('/dashboard');
 
                 cy.get('#btnParcelControl').contains('Control de paquetería').click();
                 cy.url().should('include', '/parcelControl');
@@ -79,7 +79,7 @@ describe('Role-based button functionality', () => {
             },
         }).as("jwtDecode");
 
-        cy.visit('http://localhost/dashboard?disable-twig-cache=true');
+        cy.visitWithToken('/dashboard');
 
         cy.wait("@jwtDecode");
 

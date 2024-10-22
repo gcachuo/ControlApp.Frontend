@@ -33,7 +33,7 @@ describe('User Table Tests', () => {
     });
 
     it('redirects to the add user page when edit buttons are clicked', () => {
-        cy.visit('http://localhost/users/index/?disable-twig-cache=true');
+        cy.visitWithToken('/users');
 
         cy.wait('@getUsers');
 
