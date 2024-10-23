@@ -8,6 +8,9 @@ use Twig\Loader\FilesystemLoader;
 
 (new Program())->Main();
 
+/**
+ * @version 1.0.0
+ */
 class Program
 {
     private string $title = "Control App";
@@ -68,12 +71,12 @@ class Program
     public function getView(): string
     {
         $request_uri = trim(strtok($_SERVER['REQUEST_URI'], '?'), '/');
-        if (!empty($request_uri)) {
+
             $view_path = __DIR__ . "/views/$request_uri.html";
             if (!file_exists(filename: $view_path)) {
                 $request_uri .= '/index';
             }
-        }
+
         return $request_uri;
     }
 
