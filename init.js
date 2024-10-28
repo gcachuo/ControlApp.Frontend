@@ -47,18 +47,11 @@ window.validateToken=()=> {
     }
 }
 
-let envVars;
 async function loadEnvFile(filePath) {
     try {
-        const response = await fetch(filePath); // Cargar el archivo .env como texto
-        const data = await response.text();     // Leer el contenido del archivo
-        envVars = parseEnv(data);         // Parsear el contenido
-
-        // Puedes usar las variables de entorno cargadas aquí
-        //console.log(envVars); // Imprimir las variables en la consola
-
-        // Ejemplo de cómo usar una variable
-        //console.log("API_URL:", envVars.API_URL);
+        const response = await fetch(filePath);
+        const data = await response.text();
+        window.envVars = parseEnv(data);
     } catch (error) {
         console.error("Error al cargar el archivo .env:", error);
     }

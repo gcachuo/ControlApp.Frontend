@@ -21,7 +21,7 @@ async function handleSubmit(e, form) {
     });
 
     try {
-        const response = await fetch(this.envVars.API_URL + '/users/login', {
+        const response = await fetch(window.envVars.API_URL + '/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
