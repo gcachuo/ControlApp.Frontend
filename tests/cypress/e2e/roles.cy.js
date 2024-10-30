@@ -1,6 +1,6 @@
 describe('Users', () => {
     it('should create a new role successfully', () => {
-        cy.visit('http://localhost/roles/add?disable-twig-cache=true');
+        cy.visitWithToken('/roles/add');
 
         cy.intercept({ method: 'POST', url: 'roles/create' }, {
             statusCode: 200,
