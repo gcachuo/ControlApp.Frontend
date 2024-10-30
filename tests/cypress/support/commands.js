@@ -23,3 +23,28 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('visitWithToken', (uri) => {
+    const url = new URL(`http://localhost${uri}`); //?disable-twig-cache=true
+    const params = new URLSearchParams(url.search);
+    params.set('disable-twig-cache', 'true');
+    url.search = params.toString();
+    const newUrl = url.toString();
+
+    cy.visit(newUrl, {
+        onBeforeLoad(win) {
+            win.addEventListener('load', (event) => {
+                if(win.loadEnvFile){
+                    cy.stub(win, 'loadEnvFile').callsFake(() => {
+                        win.envVars={API_URL:"http://localhost:5033"}
+                        console.log('Function bypassed for Cypress test');
+                    });
+                }
+                if (win.validateToken) {
+                    cy.stub(win, 'validateToken').callsFake(() => {
+                        console.log('Token bypassed for Cypress test');
+                    });
+                }
+            });
+        }
+    });
+});

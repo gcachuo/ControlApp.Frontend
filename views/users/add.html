@@ -1,14 +1,15 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h3 class="text-center">Registrar Usuario</h3>
+            <h3 class="text-center" id="lblTitulo">Registrar Usuario</h3>
             <form id="userForm" class="needs-validation" onsubmit="handleSubmit(event, this)">
-            
+
                 <div class="container mt-5 mb-5">
                     <!-- Campo para el correo-->
                     <div class="mb-6">
                         <label for="txtEmail" class="form-label">Correo electrónico </label>
-                        <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Introduce tu correo electrónico" required>
+                        <input type="email" class="form-control" id="txtEmail" name="email"
+                            placeholder="Introduce tu correo electrónico" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un correo electrónico válido.
                         </div>
@@ -20,7 +21,8 @@
                         <!-- Campo para el primer nombre-->
                         <div class="col-md-6">
                             <label for="txtFirstName" class="form-label">Primer Nombre</label>
-                            <input type="text" class="form-control" id="txtFirstName" name="firstName" placeholder="Introduce tu primer nombre" required>
+                            <input type="text" class="form-control" id="txtFirstName" name="firstName"
+                                placeholder="Introduce tu primer nombre" required>
                             <div class="invalid-feedback">
                                 Por favor, introduce un nombre válido para el usuario.
                             </div>
@@ -29,7 +31,8 @@
                         <!-- Campo para el segundo nombre-->
                         <div class="col-md-6">
                             <label for="txtSecondName" class="form-label">Segundo Nombre</label>
-                            <input type="text" class="form-control" id="txtSecondName" name="secondName" placeholder="Introduce tu segundo nombre">
+                            <input type="text" class="form-control" id="txtSecondName" name="secondName"
+                                placeholder="Introduce tu segundo nombre">
                             <div class="invalid-feedback">
                                 Por favor, introduce el nombre válido para el usuario.
                             </div>
@@ -40,7 +43,8 @@
                         <!-- Campo para el primer apellido-->
                         <div class="col-md-6">
                             <label for="txtFirstSurname" class="form-label">Primer Apellido </label>
-                            <input type="text" class="form-control" id="txtFirstSurname" name="firstSurname" placeholder="Introduce tu primer apellido"required>
+                            <input type="text" class="form-control" id="txtFirstSurname" name="firstSurname"
+                                placeholder="Introduce tu primer apellido" required>
                             <div class="invalid-feedback">
                                 Por favor, introduce un apellido válido para el usuario.
                             </div>
@@ -48,17 +52,20 @@
                         <!-- Campo para el segundo apellido-->
                         <div class="col-md-6">
                             <label for="txtSecondSurname" class="form-label">Segundo Apellido </label>
-                            <input type="text" class="form-control" id="txtSecondSurname" name="secondSurname" placeholder="Introduce tu segundo apellido">
+                            <input type="text" class="form-control" id="txtSecondSurname" name="secondSurname"
+                                placeholder="Introduce tu segundo apellido">
                             <div class="invalid-feedback">
                                 Por favor, introduce un apellido válido para el usuario.
                             </div>
                         </div>
                     </div>
 
+                    <br>
                     <!-- Campo para la contraseña-->
-                    <div class="mb-6">
+                    <div class="mb-6" id="passwordField">
                         <label for="txtPassword" class="form-label">Contraseña </label>
-                        <input type="password" class="form-control" id="txtPassword" name="password" placeholder="Introduce la contraseña" required>
+                        <input type="password" class="form-control" id="txtPassword" name="password"
+                            placeholder="Introduce la contraseña" required>
                         <div class="invalid-feedback">
                             Por favor, introduce una contraseña válida.
                         </div>
@@ -68,7 +75,8 @@
                     <!-- Campo para el telefono-->
                     <div class="mb-6">
                         <label for="txtPhone" class="form-label">Teléfono </label>
-                        <input maxlength="10" type="tel" class="form-control" id="txtPhone" name="phone" placeholder="Introduce un teléfono" required>
+                        <input maxlength="10" type="tel" class="form-control" id="txtPhone" name="phone"
+                            placeholder="Introduce un teléfono" required>
                         <div class="invalid-feedback">
                             Por favor, introduce un teléfono válido.
                         </div>
@@ -78,11 +86,27 @@
                     <!-- Campo para la direccion-->
                     <div class="mb-6">
                         <label for="txtAddress" class="form-label">Dirección</label>
-                        <input  type="text" class="form-control" id="txtAddress" name="address" placeholder="Ingresa tu dirección" required>
+                        <select class="form-control" id="txtAddress" name="address" required>
+                            <option value="">Selecciona una dirección</option>
+
+                        </select>
                         <div class="invalid-feedback">
-                            Por favor, ingresa una dirección válida.
+                            Por favor, selecciona una dirección válida.
                         </div>
                     </div>
+
+                    <br>
+                    <!-- Campo para el Rol-->
+                    <div class="mb-6">
+                        <label for="txtRole" class="form-label">Rol</label>
+                        <select class="form-control" id="txtRole" name="role" required>
+                            <option value="" >Selecciona un rol</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, ingresa un rol válido.
+                        </div>
+                    </div>
+
 
                 
                     <br>
@@ -99,4 +123,4 @@
     </div>
 </div>
 <input id="txtId" type="hidden" value="{{get.id}}">
-<script src="script.js"></script>
+<script src="add.js"></script>
