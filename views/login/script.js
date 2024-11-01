@@ -18,8 +18,6 @@ async function handleSubmit(e, form) {
 
     const response = await apiRequest('POST', 'users/login', jsonData);
 
-    if (response.status === 200) {
-        localStorage.setItem('accessToken', response.data.accessToken);
-        location.href = "/dashboard/";
-    }
+    localStorage.setItem('accessToken', response.data.accessToken);
+    location.href = "/dashboard/";
 }
