@@ -71,3 +71,32 @@ function parseEnv(envText) {
 
     return envVars; // Devolver un objeto con las variables de entorno
 }
+
+async function apiRequest(method,url,data) {
+    try {
+        const api = axios.create({
+            baseURL: window.envVars.API_URL // Aquí defines la base URL
+        });
+        const response = await api({method,url,data});
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+function formDataToJson(formData) {
+    const jsonObject = {};
+    for (const [key, value] of formData.entries()) {
+        // Si hay más de un valor para la misma clave, los almacenamos en un array
+        if (jsonObject[key]) {
+            if (!Array.isArray(jsonObject[key])) {
+                jsonObject[key] = [jsonObject[key]];
+            }
+            jsonObject[key].push(value);
+        } else {
+            jsonObject[key] = value;
+        }
+    }
+    return jsonObject;
+}
+
