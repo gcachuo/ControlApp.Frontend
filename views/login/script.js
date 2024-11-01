@@ -16,9 +16,9 @@ async function handleSubmit(e, form) {
     const formData = new FormData(form);
     const jsonData = formDataToJson(formData);
 
-    const response = await apiRequest('POST','users/login',jsonData);
+    const response = await apiRequest('POST', 'users/login', jsonData);
 
-    if(response.status === 200) {
+    if (response.status === 200) {
         localStorage.setItem('accessToken', response.data.accessToken);
         location.href = "/dashboard/";
     }
