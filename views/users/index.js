@@ -1,9 +1,6 @@
 async function fetchUsers() {
     try {
-        return await fetch('http://localhost:5033/users', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return await apiRequest('GET', `users`);
     } catch (error) {
         console.error('Error al cargar usuarios:', error);
         return null;
@@ -82,25 +79,20 @@ function createDeactivateButton() {
 
 async function loadUsersTable() {
     try {
-        const result = await fetchUsers();
+        const response = await fetchUsers();
 
-        if (result && result.ok) {
-            const users = await result.json();
-            const userTable = document.getElementById('userTable');
-            userTable.innerHTML = '';
+        const userTable = document.getElementById('userTable');
+        userTable.innerHTML = '';
 
-            users.addresses.forEach(user => {
-                const row = createTableRow(user);
-                userTable.appendChild(row);
-            });
-        } else {
-            console.warn('La lista está vacía');
-        }
+        response.data.addresses.forEach(user => {
+            const row = createTableRow(user);
+            userTable.appendChild(row);
+        });
     } catch (error) {
         console.error('Error: ', error);
     }
 }
 
-window.addEventListener('load', () => {
-    loadUsersTable();
+window.addEventListener('load', async () => {
+    await loadUsersTable();
 });
