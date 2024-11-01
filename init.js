@@ -50,9 +50,8 @@ window.validateToken = () => {
 
 async function loadEnvFile(filePath) {
     try {
-        const response = await fetch(filePath);
-        const data = await response.text();
-        window.envVars = parseEnv(data);
+        const response = await axios.get(filePath);
+        window.envVars = parseEnv(response.data);
     } catch (error) {
         console.error("Error al cargar el archivo .env:", error);
     }

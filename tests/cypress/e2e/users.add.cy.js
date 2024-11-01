@@ -1,7 +1,7 @@
 describe('Users', () => {
 
     beforeEach(() => {
-        cy.intercept({ method: 'GET', url: '/roles/' }, {
+        cy.intercept({ method: 'GET', url: '/roles' }, {
             statusCode: 200,
             body: {
                 message: "OK",
@@ -14,11 +14,11 @@ describe('Users', () => {
 
         cy.intercept('GET', 'addresses', {
             statusCode: 200,
-            body: [
-                { id: 1, street: 'Calle Principal', number: '101' },
-                { id: 2, street: 'Calle Secundaria', number: '202' },
-                { id: 3, street: 'Calle Tercera', number: '303' },
-            ],
+            body: {addresses:[
+                    { id: 1, street: 'Calle Principal', number: '101' },
+                    { id: 2, street: 'Calle Secundaria', number: '202' },
+                    { id: 3, street: 'Calle Tercera', number: '303' },
+                ]},
         }).as('getAddresses');
 
         cy.intercept({ method: 'POST', url: 'users/register' }, {
@@ -32,9 +32,10 @@ describe('Users', () => {
     it('should create a new user successfully', () => {
         cy.visitWithToken('/users/add');
 
-        cy.wait('@getAddresses');
-
         cy.fixture('user.json').then(user => {
+            cy.wait('@getAddresses');
+            cy.wait('@getRoles');
+
             cy.get('[name=email]')
                 .should('have.id', 'txtEmail')
                 .should('have.attr', 'type', 'email')
@@ -73,8 +74,6 @@ describe('Users', () => {
                 .should('have.attr', 'maxlength', '10')
                 .type(user.phone);
             cy.get('#txtAddress').select('Calle Tercera 303');
-
-            cy.wait('@getRoles');
 
             cy.get('#txtRole')
                 .find('option')
