@@ -1,6 +1,6 @@
 describe('Test Role Table', () => {
     beforeEach(() => {
-        cy.intercept('GET', 'http://localhost:5033/roles', {
+        cy.intercept('GET', '/roles', {
             body: {
                 message: 'OK',
                 roles: [
@@ -44,11 +44,11 @@ describe('Test Role Table', () => {
     });
 
     it('Must show a warning message if no roles received', () => {
-        cy.intercept('GET', 'http://localhost:5033/roles', {
+        cy.intercept('GET', '/roles', {
             body: { message: 'OK', roles: [] }
         }).as('fetchEmptyRoles');
 
-        cy.visit('/');
+        cy.visitWithToken('/roles');
         cy.wait('@fetchEmptyRoles');
 
         cy.on('window:console', (msg) => {

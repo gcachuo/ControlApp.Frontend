@@ -78,6 +78,6 @@ async function loadRolesTable() {
     }
 }
 
-window.addEventListener('load', () => {
-    loadRolesTable();
+window.addEventListener('load', async () => {
+    await loadRolesTable();
 });
