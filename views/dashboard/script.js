@@ -11,21 +11,16 @@ window.addEventListener("load", async (event) => {
     showButtonsByRole(role)
 
 });
+
 function navigateTo(page) {
     window.location.href = page;
-};
-async function jwtDecode(token) {
-    const response = await fetch('/actions/jwt-decode.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: new URLSearchParams({ token }).toString()
-    });
-    const jsonResponse = await response.json();
+}
 
-    return jsonResponse;
-};
+async function jwtDecode(token) {
+    const response = await actionRequest('POST', 'jwt-decode', {token});
+    return response.data;
+}
+
 // Función para mostrar los botones basados en el rol
 function showButtonsByRole(role) {
     if (role === 'admin') {
@@ -40,4 +35,4 @@ function showButtonsByRole(role) {
         document.getElementById('forbidden').style.display = 'block';
 
     }
-};
+}
