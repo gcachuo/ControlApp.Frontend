@@ -4,9 +4,9 @@ describe('Test Role Table', () => {
             body: {
                 message: 'OK',
                 roles: [
-                    { roles: 'Admin' },
-                    { roles: 'Guard' },
-                    { roles: 'User' }
+                    { name: 'Admin' },
+                    { name: 'Guard' },
+                    { name: 'User' }
                 ]
             }
         }).as('fetchRoles');
