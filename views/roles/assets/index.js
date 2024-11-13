@@ -12,7 +12,7 @@ async function fetchRoles() {
 function createTableRow(role) {
     const row = document.createElement('tr');
 
-    const roleCell = createCell(role.roles);
+    const roleCell = createCell(role.name);
     const actionsCell = createActionsCell(role);
 
     row.appendChild(roleCell);
@@ -62,7 +62,6 @@ async function loadRolesTable() {
 
         if (result && result.ok) {
             const role = await result.json();
-            console.log(role)
             const roleTable = document.getElementById('roleTable');
             roleTable.innerHTML = '';
 
