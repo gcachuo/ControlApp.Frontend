@@ -4,3 +4,4 @@
 !/vendor/.empty
 /composer.phar
 /.env
+/node_modules/

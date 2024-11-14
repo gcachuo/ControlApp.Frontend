@@ -36,12 +36,12 @@ Cypress.Commands.add('visitWithToken', (uri) => {
                 if(win.loadEnvFile){
                     cy.stub(win, 'loadEnvFile').callsFake(() => {
                         win.envVars={API_URL:"http://localhost:5033"}
-                        console.log('Function bypassed for Cypress test');
+                        console.info('Function bypassed for Cypress test');
                     });
                 }
                 if (win.validateToken) {
                     cy.stub(win, 'validateToken').callsFake(() => {
-                        console.log('Token bypassed for Cypress test');
+                        console.info('Token bypassed for Cypress test');
                     });
                 }
             });
