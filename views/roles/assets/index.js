@@ -62,7 +62,6 @@ async function loadRolesTable() {
 
     if (result && result.ok) {
       const role = await result.json();
-      console.log(role);
       const roleTable = document.getElementById("roleTable");
       roleTable.innerHTML = "";
 
