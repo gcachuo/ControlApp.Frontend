@@ -47,4 +47,20 @@ describe("User Table Tests", () => {
       cy.wrap(button).should("be.disabled");
     });
   });
+
+
+  it("renders no rows when server error occurs", () => {
+    cy.intercept("GET", "/users", {
+      statusCode: 500,
+      body: { message: "Server Error", addresses: [] },
+    }).as("getEmptyUsers");
+
+    cy.visitWithToken("/users");
+    cy.wait("@getEmptyUsers");
+
+    cy.get("#userTable").should("be.empty");
+    cy.window().then((win) => {
+      cy.stub(win.console, "error").as("consoleError");
+    });
+  });
 });
