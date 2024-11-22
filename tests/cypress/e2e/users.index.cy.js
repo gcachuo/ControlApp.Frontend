@@ -4,7 +4,7 @@ describe("User Table Tests", () => {
       statusCode: 200,
       body: {
         message: "OK",
-        addresses: [
+        users: [
           {
             id: 1,
             address: "Calle 1",
@@ -52,7 +52,7 @@ describe("User Table Tests", () => {
   it("renders no rows when server error occurs", () => {
     cy.intercept("GET", "/users", {
       statusCode: 500,
-      body: { message: "Server Error", addresses: [] },
+      body: { message: "Server Error", users: [] },
     }).as("getEmptyUsers");
 
     cy.visitWithToken("/users");
