@@ -84,7 +84,7 @@ async function loadUsersTable() {
     const userTable = document.getElementById("userTable");
     userTable.innerHTML = "";
 
-    response.data.addresses.forEach((user) => {
+    response.data.users.forEach((user) => {
       const row = createTableRow(user);
       userTable.appendChild(row);
     });
