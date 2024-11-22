@@ -16,4 +16,3 @@ docker exec <container> composer install
 ```
 yarn prettier --write .
 ```
-
