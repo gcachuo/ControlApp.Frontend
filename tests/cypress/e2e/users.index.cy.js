@@ -4,26 +4,32 @@ describe("User Table Tests", () => {
       statusCode: 200,
       body: {
         message: "OK",
-        addresses: [
+        users: [
           {
             id: 1,
             address: "Calle 1",
             firstName: "Juan",
-            lastName: "Pérez",
+            secondName: "Carlos",
+            lastname: "Pérez",
+            secondLastname: "López",
             phoneNumber: "4771234567",
           },
           {
             id: 2,
             address: "Calle 2",
             firstName: "María",
-            lastName: "Fernanda",
+            secondName: "Elena",
+            lastname: "Fernanda",
+            secondLastname: "Martínez",
             phoneNumber: "4771234567",
           },
           {
             id: 3,
             address: "Calle 3",
             firstName: "Pedro",
-            lastName: "Moreno",
+            secondName: "Luis",
+            lastname: "Moreno",
+            secondLastname: "Hernández",
             phoneNumber: "4771234567",
           },
         ],
@@ -45,6 +51,21 @@ describe("User Table Tests", () => {
 
     cy.get('button[data-cy="btnDeactivate"]').each((button) => {
       cy.wrap(button).should("be.disabled");
+    });
+  });
+
+  it("renders no rows when server error occurs", () => {
+    cy.intercept("GET", "/users", {
+      statusCode: 500,
+      body: { message: "Server Error", users: [] },
+    }).as("getEmptyUsers");
+
+    cy.visitWithToken("/users");
+    cy.wait("@getEmptyUsers");
+
+    cy.get("#userTable").should("be.empty");
+    cy.window().then((win) => {
+      cy.stub(win.console, "error").as("consoleError");
     });
   });
 });
