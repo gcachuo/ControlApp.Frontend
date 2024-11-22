@@ -54,7 +54,6 @@ describe("User Table Tests", () => {
     });
   });
 
-
   it("renders no rows when server error occurs", () => {
     cy.intercept("GET", "/users", {
       statusCode: 500,
