@@ -11,7 +11,7 @@ function createTableRow(user) {
   const row = document.createElement("tr");
 
   const addressCell = createCell(user.address);
-  const fullNameCell = createCell(`${user.firstName} ${user.lastName}`);
+  const fullNameCell = createCell(`${user.firstName} ${user.secondName} ${user.lastname} ${user.secondLastname} `);
   const phoneCell = createCell(user.phoneNumber);
   const actionsCell = createActionsCell(user);
 
