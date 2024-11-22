@@ -134,8 +134,7 @@ class Program
     {
         $request_uri = strtok(trim($_SERVER['REQUEST_URI'], '/'), '?');
         $file = basename($request_uri);
-        $request_uri = strstr($request_uri, '/', true) ?: $request_uri;
-        $view_path = __DIR__ . "/views/$request_uri/$file";
+        $view_path = __DIR__ . "/views/$request_uri";
         if (is_file($view_path)) {
             include __DIR__ . "/tools/mime_type.php";
             $mimetype = get_mime_content_type($view_path);
