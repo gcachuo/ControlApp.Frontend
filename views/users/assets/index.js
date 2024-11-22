@@ -1,13 +1,6 @@
 async function fetchUsers() {
   try {
     return await apiRequest("GET", `users`);
-    
-
-        const users = data.Users;
-
-        if (!users || users.length === 0) {
-            console.log('No se encontraron usuarios.');
-        }
   } catch (error) {
     console.error("Error al cargar usuarios:", error);
     return null;
