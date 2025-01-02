@@ -79,6 +79,8 @@ function parseEnv(envText) {
 
 async function apiRequest(method, url, data) {
   try {
+    await loadEnvFile("/.env");
+
     const api = axios.create({
       baseURL: window.envVars.API_URL,
     });
