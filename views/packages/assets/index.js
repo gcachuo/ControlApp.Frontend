@@ -13,6 +13,11 @@ function createCell(textContent) {
     return cell;
 }
 
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleString();
+}
+
 function createActionsCell(pkg) {
     const actionsCell = document.createElement("td");
 
@@ -26,10 +31,10 @@ function createPackageRow(pkg) {
     const row = document.createElement("tr");
 
     const serviceCell = createCell(pkg.service);
-    const receivedCell = createCell(pkg.received_at);
-    const confirmationCell = createCell(pkg.confirmed_at);
-    const addressCell = createCell(pkg.address_id);
-    const statusCell = createCell(pkg.status);
+    const receivedCell = createCell(formatDate(pkg.receivedAt));
+    const confirmationCell = createCell(formatDate(pkg.confirmedAt));
+    const addressCell = createCell(pkg.address);
+    const statusCell = createCell(pkg.statusName);
     const actionsCell = createActionsCell(pkg);
 
     row.appendChild(serviceCell);
@@ -42,12 +47,14 @@ function createPackageRow(pkg) {
     return row;
 }
 
-function createConfirmButton(packageId) {
+function createConfirmButton(pkg) {
 
     const confirmButton = document.createElement("button");
     confirmButton.className = "btn btn-outline-success btn-sm";
     confirmButton.title = "Confirmar Entrega";
     confirmButton.setAttribute("data-cy", "btnConfirm");
+    confirmButton.setAttribute("data-package-id", pkg.id);
+
 
     const confirmIcon = document.createElement("span");
     confirmIcon.className = "material-symbols-outlined";
@@ -56,7 +63,7 @@ function createConfirmButton(packageId) {
 
     confirmButton.onclick = async () => {
         try {
-            const response = await apiRequest("POST", `packages/${packageId}/confirm`);
+            const response = await apiRequest("POST", `packages/${pkg.id}/confirm`);
             if (response.success) {
                 alert("Entrega confirmada.");
                 await loadPackagesTable();
@@ -84,6 +91,9 @@ async function loadPackagesTable() {
             const row = createPackageRow(pkg);
             packageTable.appendChild(row);
         });
+
+        console.log("Table content:", packageTable.innerHTML);
+
     } catch (error) {
         console.error("Error al cargar la tabla de paquetes ", error);
     }
