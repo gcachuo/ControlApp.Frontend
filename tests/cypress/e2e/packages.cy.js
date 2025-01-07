@@ -4,18 +4,16 @@ describe("Packages Table", () => {
             statusCode: 200,
             body: {
                 message: "OK",
-                data: {
-                    packages: [
-                        {
-                            id: 1,
-                            service: "Delivery",
-                            receivedAt: "2023-12-20 14:00:00",
-                            confirmedAt: null,
-                            address: 123,
-                            statusname: 1,
-                        },
-                    ],
-                },
+                packages: [
+                    {
+                        id: 1,
+                        service: "Delivery",
+                        receivedAt: "2023-12-20 14:00:00",
+                        confirmedAt: null,
+                        address: "Fake Street 123",
+                        statusName: "confirmar",
+                    },
+                ],
             },
         }).as("getPackages");
 
