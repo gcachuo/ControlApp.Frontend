@@ -11,9 +11,7 @@ function createTableRow(user) {
   const row = document.createElement("tr");
 
   const addressCell = createCell(user.address);
-  const fullNameCell = createCell(
-    `${user.firstName} ${user.secondName} ${user.lastname} ${user.secondLastname} `,
-  );
+  const fullNameCell = createCell(`${user.firstName} ${user.lastName}`);
   const phoneCell = createCell(user.phoneNumber);
   const actionsCell = createActionsCell(user);
 
@@ -86,7 +84,7 @@ async function loadUsersTable() {
     const userTable = document.getElementById("userTable");
     userTable.innerHTML = "";
 
-    response.data.users.forEach((user) => {
+    response.data.addresses.forEach((user) => {
       const row = createTableRow(user);
       userTable.appendChild(row);
     });
@@ -94,6 +92,10 @@ async function loadUsersTable() {
     console.error("Error: ", error);
   }
 }
+
+document.getElementById("registerUser").addEventListener("click", () => {
+  window.location.href = "/users/add.html";
+});
 
 window.addEventListener("load", async () => {
   await loadUsersTable();
