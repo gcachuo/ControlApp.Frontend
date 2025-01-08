@@ -59,6 +59,7 @@ describe("User Table Tests", () => {
       body: { message: "Server Error", users: [] },
     }).as("getEmptyUsers");
 
+    cy.visitWithToken("/users");
     cy.wait("@getEmptyUsers");
 
     cy.get("#userTable").should("be.empty");
@@ -67,10 +68,11 @@ describe("User Table Tests", () => {
     });
   });
 
-  it("should redirect to /users/add.html when clicked", () => {
+  it("should redirect to /users/add when clicked", () => {
+    cy.visitWithToken("/users");
     cy.get("#registerUser").should("exist");
 
     cy.get("#registerUser").click();
-    cy.url().should("include", "/users/add.html");
+    cy.url().should("include", "/users/add");
   });
 });
