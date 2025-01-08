@@ -82,8 +82,6 @@ async function loadPackagesTable() {
     try {
         const response = await fetchPackages();
 
-        console.log("API Response:", response);
-
         const packageTable = document.getElementById("packageTable");
         packageTable.innerHTML = "";
 
@@ -91,8 +89,6 @@ async function loadPackagesTable() {
             const row = createPackageRow(pkg);
             packageTable.appendChild(row);
         });
-
-        console.log("Table content:", packageTable.innerHTML);
 
     } catch (error) {
         console.error("Error al cargar la tabla de paquetes ", error);
