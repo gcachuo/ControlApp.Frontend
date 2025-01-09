@@ -17,7 +17,7 @@ describe("Packages Table", () => {
       },
     }).as("getPackages");
 
-    cy.visitWithToken("/packages");
+    cy.visitWithToken("/packages-tracking");
   });
 
   it("should display the packages table with confirmation buttons", () => {
@@ -36,7 +36,7 @@ describe("Packages Table", () => {
       body: { message: "Internal Server Error" },
     }).as("getPackagesError");
 
-    cy.visitWithToken("/packages");
+    cy.visitWithToken("/packages-tracking");
     cy.wait("@getPackagesError");
 
     cy.get("#packageTable").should("exist");

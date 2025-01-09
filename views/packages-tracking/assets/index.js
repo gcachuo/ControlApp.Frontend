@@ -93,7 +93,7 @@ async function loadPackagesTable() {
 }
 
 document.getElementById("registerPackage").addEventListener("click", () => {
-  window.location.href = "/packages/register.html";
+  window.location.href = "/packages-tracking/register.html";
 });
 
 window.addEventListener("load", async () => {
