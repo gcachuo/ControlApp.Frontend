@@ -84,7 +84,7 @@ async function loadUsersTable() {
     const userTable = document.getElementById("userTable");
     userTable.innerHTML = "";
 
-    response.data.addresses.forEach((user) => {
+    response.data.users.forEach((user) => {
       const row = createTableRow(user);
       userTable.appendChild(row);
     });
@@ -92,6 +92,10 @@ async function loadUsersTable() {
     console.error("Error: ", error);
   }
 }
+
+document.getElementById("registerUser").addEventListener("click", () => {
+  window.location.href = "/users/add";
+});
 
 window.addEventListener("load", async () => {
   await loadUsersTable();

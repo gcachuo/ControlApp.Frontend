@@ -10,3 +10,9 @@ docker compose up --build
 docker ps
 docker exec <container> composer install
 ```
+
+## Run Prettier
+
+```
+yarn prettier --write .
+```
