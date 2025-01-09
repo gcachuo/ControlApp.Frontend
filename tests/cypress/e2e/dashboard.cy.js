@@ -27,10 +27,6 @@ describe("Role-based button functionality", () => {
       cy.url().should("include", "/roles");
       cy.visitWithToken("/dashboard");
 
-      cy.get("#btnVisits").contains("Control de visitas").click();
-      cy.url().should("include", "/visits");
-      cy.visitWithToken("/dashboard");
-
       cy.get("#btnParcelControl").contains("Control de paquetería").click();
       cy.url().should("include", "/packages");
       cy.visitWithToken("/dashboard");
@@ -57,8 +53,6 @@ describe("Role-based button functionality", () => {
     cy.get("#forbidden").should("not.be.visible");
 
     cy.get("#guard").within(() => {
-      cy.get("#btnVisits").contains("Control de visitas").click();
-      cy.url().should("include", "/visits");
       cy.visitWithToken("/dashboard");
 
       cy.get("#btnParcelControl").contains("Control de paquetería").click();
@@ -84,5 +78,24 @@ describe("Role-based button functionality", () => {
     cy.get("#forbidden").should("be.visible");
     cy.get("#admin").should("not.be.visible");
     cy.get("#guard").should("not.be.visible");
+  });
+
+  it("should ensure 'Control de visitas' button is visible but disabled", () => {
+    cy.intercept(
+      { method: "POST", url: "/actions/jwt-decode.php" },
+      {
+        statusCode: 200,
+        body: {
+          role: "guard",
+        },
+      },
+    ).as("jwtDecode");
+
+    cy.visitWithToken("/dashboard");
+
+    cy.wait("@jwtDecode");
+
+    cy.get("#guard").should("be.visible");
+    cy.get("#btnVisits").should("be.visible").and("be.disabled");
   });
 });
