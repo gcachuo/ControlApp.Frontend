@@ -35,11 +35,10 @@ describe("User Table Tests", () => {
         ],
       },
     }).as("getUsers");
+    cy.visitWithToken("/users");
   });
 
   it("redirects to the add user page when edit buttons are clicked", () => {
-    cy.visitWithToken("/users");
-
     cy.wait("@getUsers");
 
     cy.get('[data-cy="btnEdit"]').should("exist");
@@ -67,5 +66,13 @@ describe("User Table Tests", () => {
     cy.window().then((win) => {
       cy.stub(win.console, "error").as("consoleError");
     });
+  });
+
+  it("should redirect to /users/add when clicked", () => {
+    cy.visitWithToken("/users");
+    cy.get("#registerUser").should("exist");
+
+    cy.get("#registerUser").click();
+    cy.url().should("include", "/users/add");
   });
 });

@@ -28,7 +28,7 @@ describe("Role-based button functionality", () => {
       cy.visitWithToken("/dashboard");
 
       cy.get("#btnParcelControl").contains("Control de paquetería").click();
-      cy.url().should("include", "/parcelControl");
+      cy.url().should("include", "/packages");
       cy.visitWithToken("/dashboard");
     });
   });
@@ -56,7 +56,7 @@ describe("Role-based button functionality", () => {
       cy.visitWithToken("/dashboard");
 
       cy.get("#btnParcelControl").contains("Control de paquetería").click();
-      cy.url().should("include", "/parcelControl");
+      cy.url().should("include", "/packages");
     });
   });
 
