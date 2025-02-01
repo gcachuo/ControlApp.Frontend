@@ -37,7 +37,7 @@ function createActionsCell(role) {
   return actionsCell;
 }
 
-function createAssignButton() {
+function createAssignButton(role) {
   const assignButton = document.createElement("button");
   assignButton.className = "btn outline-secondary btn-sm me-2";
   assignButton.title = "Asignar Permisos";
@@ -50,7 +50,7 @@ function createAssignButton() {
   assignButton.appendChild(assignIcon);
 
   assignButton.onclick = () => {
-    // Logica para Asignar Permisos
+    window.location.href = `/roles/permissions/?id=${role.id}`;
   };
 
   return assignButton;
